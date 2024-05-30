@@ -18,12 +18,11 @@ import com.acmerobotics.roadrunner.util.NanoClock;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.teamcode.subsystems.drive.DriveConstants;
-import org.firstinspires.ftc.teamcode.subsystems.drive.trajectorysequence.sequencesegment.TurnSegment;
-import org.firstinspires.ftc.teamcode.subsystems.drive.trajectorysequence.sequencesegment.WaitSegment;
 import org.firstinspires.ftc.teamcode.subsystems.drive.trajectorysequence.sequencesegment.SequenceSegment;
 import org.firstinspires.ftc.teamcode.subsystems.drive.trajectorysequence.sequencesegment.TrajectorySegment;
+import org.firstinspires.ftc.teamcode.subsystems.drive.trajectorysequence.sequencesegment.WaitSegment;
+import org.firstinspires.ftc.teamcode.subsystems.drive.trajectorysequence.sequencesegment.TurnSegment;
 import org.firstinspires.ftc.teamcode.util.DashboardUtil;
-import org.firstinspires.ftc.teamcode.util.LogFiles;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,14 +59,13 @@ public class TrajectorySequenceRunner {
     private final FtcDashboard dashboard;
     private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
 
-    private VoltageSensor voltageSensor;
+    private final VoltageSensor voltageSensor;
 
-    private List<Integer> lastDriveEncPositions, lastDriveEncVels, lastTrackingEncPositions, lastTrackingEncVels;
+    private final List<Integer> lastDriveEncPositions, lastDriveEncVels;
 
     public TrajectorySequenceRunner(
             TrajectoryFollower follower, PIDCoefficients headingPIDCoefficients, VoltageSensor voltageSensor,
-            List<Integer> lastDriveEncPositions, List<Integer> lastDriveEncVels, List<Integer> lastTrackingEncPositions, List<Integer> lastTrackingEncVels
-    ) {
+            List<Integer> lastDriveEncPositions, List<Integer> lastDriveEncVels) {
         this.follower = follower;
 
         turnController = new PIDFController(headingPIDCoefficients);
@@ -77,8 +75,6 @@ public class TrajectorySequenceRunner {
 
         this.lastDriveEncPositions = lastDriveEncPositions;
         this.lastDriveEncVels = lastDriveEncVels;
-        this.lastTrackingEncPositions = lastTrackingEncPositions;
-        this.lastTrackingEncVels = lastTrackingEncVels;
 
         clock = NanoClock.system();
 
@@ -210,12 +206,11 @@ public class TrajectorySequenceRunner {
             );
         }
 
-        if (targetPose != null) {
-            LogFiles.record(
-                    targetPose, poseEstimate, voltage,
-                    lastDriveEncPositions, lastDriveEncVels, lastTrackingEncPositions, lastTrackingEncVels
-            );
-        }
+//        if (targetPose != null) {
+//            LogFiles.record(
+//                    targetPose, poseEstimate, voltage,
+//                    lastDriveEncPositions, lastDriveEncVels, null, null);
+//        }
 
         packet.put("x", poseEstimate.getX());
         packet.put("y", poseEstimate.getY());
