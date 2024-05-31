@@ -60,7 +60,7 @@ public class RobotContainer {
                 new BlueAutoCommand(m_driveSubsystem).schedule();
                 break;
             case 2:
-                new RedAutoCommand(m_driveSubsystem, m_intakeSubsystem, m_shooterSubsystem).schedule();
+                new RedAutoCommand(m_driveSubsystem, m_intakeSubsystem, m_shooterSubsystem, m_clawSubsystem).schedule();
                 break;
         }
 

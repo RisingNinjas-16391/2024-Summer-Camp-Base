@@ -3,13 +3,16 @@ package org.firstinspires.ftc.teamcode.commands;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.subsystems.claw.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.drive.DrivetrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.subsystems.shooter.ShooterSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.claw.ClawSubsystem;
+import org.firstinspires.ftc.teamcode.commands.ClawCommand;
 
 public class RedAutoCommand extends SequentialCommandGroup {
-    public RedAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, ShooterSubsystem shooter) {
+    public RedAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, ShooterSubsystem shooter, ClawSubsystem claw) {
         addCommands(
                 new FollowTrajectoryCommand(drive, drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                         // Add movements here
@@ -20,7 +23,8 @@ public class RedAutoCommand extends SequentialCommandGroup {
 
                 ),
                 new IntakeCommand(intake, () -> 1),
-                new ShooterCommand(shooter, () -> 2.0)
+                new ShooterCommand(shooter, () -> 2.0),
+                new ClawCommand(claw, 90)
         );
     }
 
