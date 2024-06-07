@@ -17,7 +17,7 @@ public class RedAutoCommand extends SequentialCommandGroup {
                         .build()
 
                 ),
-                new ShooterCommand(shooter, () -> 2.0)
+                new ShooterPowerCommand(shooter, () -> 2.0)
         );
     }
 

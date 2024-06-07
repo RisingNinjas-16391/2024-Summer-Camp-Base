@@ -3,37 +3,71 @@ package org.firstinspires.ftc.teamcode.subsystems.shooter;
 import androidx.annotation.NonNull;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+import com.arcrobotics.ftclib.controller.PIDFController;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 public class ShooterSubsystem extends SubsystemBase {
+    private final DcMotorEx shooter;
+    private static final double gearRatio = 1;
+    private final PIDFController kShooterController = new PIDFController(0.08, 0, 0, 0);
+    private double desiredRPM = 0;
+    private double desiredPower = 0;
 
-    private final MotorEx m_shooter;
-    private double RPM;
-
-    public ShooterSubsystem(@NonNull HardwareMap hardwareMap) {
-        RPM = 0.0;
-        m_shooter = hardwareMap.get(MotorEx.class, "shooter");
-        m_shooter.setRunMode(Motor.RunMode.VelocityControl);
-        m_shooter.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
-        m_shooter.setInverted(false);
-        m_shooter.setVeloCoefficients(0.05, 0.01, 0.31);
-        m_shooter.setFeedforwardCoefficients(0.92, 0.47);
-
+    public ShooterSubsystem(@NonNull HardwareMap hwMap){
+        shooter = hwMap.get(DcMotorEx.class, "shooter");
+        shooter.setDirection(DcMotorSimple.Direction.FORWARD);
+        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void setRPM(double setpoint) {
-        RPM = setpoint;
-        m_shooter.set(RPM / 60 * m_shooter.getCPR()); //converts rpm to rotations per second, multiplies by ticks per rotation to get target velocity in ticks per second
+    public void updateTelemetry(Telemetry telemetry) {
+        telemetry.addLine("Shooter");
+        telemetry.addData("Current RPM:", getRPM());
+        telemetry.addData("Desired RPM:", desiredRPM);
+        telemetry.addData("Power", desiredPower);
+        telemetry.addData("Is Finished: ", shooter.isBusy());
+        telemetry.addData("Amperage", shooter.getCurrent(CurrentUnit.AMPS));
+    }
+    @Override
+    public void periodic() {
+        setPower(desiredPower);
     }
 
-    public double getRPMSetpoint() {
-        return RPM;
+    public void setRPM(double RPM) {
+        desiredRPM = RPM;
     }
 
     public double getRPM() {
-        return m_shooter.getVelocity() * 60 / m_shooter.getCPR();
+        return shooter.getVelocity(AngleUnit.RADIANS) * (60.0 / (2 * Math.PI)) * gearRatio;
+    }
+
+    public void calculatePID() {
+        desiredPower = kShooterController.calculate(getRPM(), desiredRPM);
+    }
+    public void setPower(double power){
+        desiredPower = power;
+        shooter.setPower(desiredPower);
+    }
+
+    public double getPower(){
+        return shooter.getPower();
+    }
+
+    public boolean isBusy() {
+        return shooter.isBusy();
+    }
+
+    public boolean atSetpoint() {
+        if (Math.abs(desiredRPM - getRPM()) < 10) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
