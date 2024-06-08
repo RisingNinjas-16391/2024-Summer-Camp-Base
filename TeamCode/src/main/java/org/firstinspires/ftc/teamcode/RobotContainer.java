@@ -18,16 +18,10 @@ public class RobotContainer {
     private final DrivetrainSubsystem m_driveSubsystem;
 
     private final GamepadEx m_driverController;
-    private final IntakeSubsystem m_intakeSubsystem;
-    private final ShooterSubsystem m_shooterSubsystem;
-    private final ClawSubsystem m_clawSubsystem;
     private final GamepadEx m_operatorController;
 
     public RobotContainer(HardwareMap hwMap, Gamepad gamepad1, Gamepad gamepad2, int autoNum){
         m_driveSubsystem = new DrivetrainSubsystem(hwMap, false);
-        m_intakeSubsystem = new IntakeSubsystem(hwMap);
-        m_shooterSubsystem = new ShooterSubsystem(hwMap);
-        m_clawSubsystem = new ClawSubsystem(hwMap);
         m_driverController = new GamepadEx(gamepad1);
         m_operatorController = new GamepadEx(gamepad2);
 
@@ -60,7 +54,7 @@ public class RobotContainer {
                 new BlueAutoCommand(m_driveSubsystem).schedule();
                 break;
             case 2:
-                new RedAutoCommand(m_driveSubsystem, m_intakeSubsystem, m_shooterSubsystem, m_clawSubsystem).schedule();
+                new RedAutoCommand(m_driveSubsystem).schedule();
                 break;
         }
 
