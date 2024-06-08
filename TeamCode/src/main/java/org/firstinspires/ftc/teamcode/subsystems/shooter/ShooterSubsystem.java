@@ -22,7 +22,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public ShooterSubsystem(@NonNull HardwareMap hwMap){
         shooter = hwMap.get(DcMotorEx.class, "shooter");
-        shooter.setDirection(DcMotorSimple.Direction.FORWARD);
+        shooter.setDirection(DcMotorSimple.Direction.REVERSE);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
@@ -36,7 +36,12 @@ public class ShooterSubsystem extends SubsystemBase {
     }
     @Override
     public void periodic() {
-        setPower(desiredPower);
+        try {
+            setPower(desiredPower);
+
+        } catch (Exception e) {
+
+        }
     }
 
     public void setRPM(double RPM) {

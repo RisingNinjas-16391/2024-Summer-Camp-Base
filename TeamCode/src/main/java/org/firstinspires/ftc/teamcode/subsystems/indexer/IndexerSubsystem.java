@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystems.indexer;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -11,6 +12,8 @@ public class IndexerSubsystem extends SubsystemBase {
     private double power = 0;
     public IndexerSubsystem(HardwareMap hwMap) {
         indexer = hwMap.get(DcMotorEx.class, "indexer");
+        indexer.setDirection(DcMotorSimple.Direction.REVERSE);
+
     }
 
     public void updateTelemetry(Telemetry telemetry) {
