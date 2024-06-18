@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -27,10 +28,11 @@ public class RobotContainer {
 
     private final GamepadButton m_outtakePosition;
     private final GamepadButton m_intakePosition;
+    private final GamepadButton m_resetHeading;
 
 
     public RobotContainer(HardwareMap hwMap, Gamepad gamepad1, Gamepad gamepad2, int autoNum){
-        m_driveSubsystem = new DrivetrainSubsystem(hwMap, false);
+        m_driveSubsystem = new DrivetrainSubsystem(hwMap, true);
         m_pivotSubsystem = new PivotSubsystem(hwMap);
         m_intakeSubsystem = new IntakeSubsystem(hwMap);
 
@@ -38,6 +40,8 @@ public class RobotContainer {
 
         m_outtakePosition = new GamepadButton(m_driverController, GamepadKeys.Button.RIGHT_BUMPER);
         m_intakePosition = new GamepadButton(m_driverController, GamepadKeys.Button.LEFT_BUMPER);
+
+        m_resetHeading = new GamepadButton(m_driverController, GamepadKeys.Button.START);
 
         if (autoNum == 0) {
             setDefaultCommands();
@@ -49,8 +53,6 @@ public class RobotContainer {
 
     public void periodic(Telemetry telemetry) {
         m_driveSubsystem.updateTelemetry(telemetry);
-        m_pivotSubsystem.updateTelemetry(telemetry);
-        m_intakeSubsystem.updateTelemetry(telemetry);
 
         telemetry.update();
     }
@@ -66,8 +68,10 @@ public class RobotContainer {
     }
 
     public void configureButtonBindings() {
-        m_outtakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(-30)));
-        m_intakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(0)));
+        m_outtakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(10)));
+        m_intakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(-20)));
+
+        m_resetHeading.whenPressed(new InstantCommand(m_driveSubsystem::resetHeading));
     }
 
     private void setAutoCommands(int chooser) {

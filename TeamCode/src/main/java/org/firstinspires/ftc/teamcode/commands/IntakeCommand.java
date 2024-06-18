@@ -31,4 +31,9 @@ public class IntakeCommand extends CommandBase {
     public void execute(){
         m_intake.setPower(m_power.getAsDouble());
     }
+
+    @Override
+    public void end(boolean cancelled) {
+        m_intake.setPower(0);
+    }
 }

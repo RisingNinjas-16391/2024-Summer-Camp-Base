@@ -22,8 +22,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public static double omegaSpeed = 0.5;
     private final boolean m_fieldCentric;
-
-
+    private double m_headingOffset = 0;
 
     public DrivetrainSubsystem(@NonNull HardwareMap hardwareMap, Boolean fieldCentric) {
         m_drive = new MecanumDrive(hardwareMap);
@@ -49,10 +48,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void setDrivePower(@NonNull Pose2d drivePower) {
-        Pose2d poseEstimate = m_drive.getPoseEstimate();
-
         Vector2d input = new Vector2d(drivePower.getY(), drivePower.getX()).rotated(
-                m_fieldCentric ? -poseEstimate.getHeading() : 0
+                m_fieldCentric ? -getHeading() : 0
         );
 
         m_drive.setWeightedDrivePower(
@@ -99,7 +96,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public double getHeading() {
-        return m_drive.getRawExternalHeading();
+        return m_drive.getRawExternalHeading() - m_headingOffset;
     }
 
     public Pose2d getPoseEstimate() {
@@ -112,5 +109,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public boolean isFinishedHeadingPID() {
         return (desiredHeading - getHeading()) < 0.2;
+    }
+
+    public void resetHeading() {
+        m_headingOffset = getHeading();
     }
 }
