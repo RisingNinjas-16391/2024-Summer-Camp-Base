@@ -49,6 +49,8 @@ public class RobotContainer {
 
     public void periodic(Telemetry telemetry) {
         m_driveSubsystem.updateTelemetry(telemetry);
+        m_pivotSubsystem.updateTelemetry(telemetry);
+        m_intakeSubsystem.updateTelemetry(telemetry);
 
         telemetry.update();
     }
@@ -64,8 +66,8 @@ public class RobotContainer {
     }
 
     public void configureButtonBindings() {
-        m_outtakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(10)));
-        m_intakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(-20)));
+        m_outtakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(-30)));
+        m_intakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(0)));
     }
 
     private void setAutoCommands(int chooser) {
@@ -74,7 +76,7 @@ public class RobotContainer {
                 new BlueAutoCommand(m_driveSubsystem, m_intakeSubsystem, m_pivotSubsystem).schedule();
                 break;
             case 2:
-                new RedAutoCommand(m_driveSubsystem).schedule();
+                new RedAutoCommand(m_driveSubsystem, m_intakeSubsystem, m_pivotSubsystem).schedule();
                 break;
         }
 
