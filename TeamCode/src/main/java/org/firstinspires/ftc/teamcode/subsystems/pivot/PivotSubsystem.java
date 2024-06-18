@@ -72,7 +72,7 @@ public class PivotSubsystem extends SubsystemBase {
     }
 
     public boolean atSetpoint() {
-        return (Math.abs(desiredAngle - getAngle()) < 0.4);
+        return (Math.abs(desiredAngle - getAngle()) < 0.2);
     }
 
     public boolean isBusy() {

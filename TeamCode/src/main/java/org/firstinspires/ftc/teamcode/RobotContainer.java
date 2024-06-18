@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -28,6 +29,7 @@ public class RobotContainer {
 
     private final GamepadButton m_outtakePosition;
     private final GamepadButton m_intakePosition;
+    private final GamepadButton m_autoScore;
     private final GamepadButton m_resetHeading;
 
 
@@ -38,8 +40,9 @@ public class RobotContainer {
 
         m_driverController = new GamepadEx(gamepad1);
 
-        m_outtakePosition = new GamepadButton(m_driverController, GamepadKeys.Button.RIGHT_BUMPER);
-        m_intakePosition = new GamepadButton(m_driverController, GamepadKeys.Button.LEFT_BUMPER);
+        m_outtakePosition = new GamepadButton(m_driverController, GamepadKeys.Button.A);
+        m_intakePosition = new GamepadButton(m_driverController, GamepadKeys.Button.B);
+        m_autoScore = new GamepadButton(m_driverController, GamepadKeys.Button.Y);
 
         m_resetHeading = new GamepadButton(m_driverController, GamepadKeys.Button.START);
 
@@ -53,6 +56,8 @@ public class RobotContainer {
 
     public void periodic(Telemetry telemetry) {
         m_driveSubsystem.updateTelemetry(telemetry);
+        m_intakeSubsystem.updateTelemetry(telemetry);
+        m_pivotSubsystem.updateTelemetry(telemetry);
 
         telemetry.update();
     }
@@ -62,14 +67,19 @@ public class RobotContainer {
                 m_driveSubsystem, m_driverController::getLeftY,
                 m_driverController::getLeftX, m_driverController::getRightX));
         m_pivotSubsystem.setDefaultCommand(new PivotPowerCommand(
-                m_pivotSubsystem, () -> (m_driverController.getButton(GamepadKeys.Button.A) ? 1 : m_driverController.getButton(GamepadKeys.Button.B) ? -1 : 0)));
+                m_pivotSubsystem, () -> (m_driverController.getButton(GamepadKeys.Button.LEFT_BUMPER) ? 1 : m_driverController.getButton(GamepadKeys.Button.RIGHT_BUMPER) ? -1 : 0)));
 
-        m_intakeSubsystem.setDefaultCommand(new IntakeCommand(m_intakeSubsystem, () -> m_driverController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) - m_driverController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
+        m_intakeSubsystem.setDefaultCommand(new IntakeCommand(m_intakeSubsystem, () -> m_driverController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) - m_driverController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) - 0.3));
     }
 
     public void configureButtonBindings() {
-        m_outtakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(10)));
+        m_outtakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(200)));
         m_intakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(-30)));
+        m_autoScore.whenPressed(new SequentialCommandGroup(
+                new PivotCommand(m_pivotSubsystem, Math.toRadians(200)).withTimeout(500),
+                new IntakeCommand(m_intakeSubsystem, 1).withTimeout(500),
+                new PivotCommand(m_pivotSubsystem, Math.toRadians(-30))
+                ));
 
         m_resetHeading.whenPressed(new InstantCommand(m_driveSubsystem::resetHeading));
     }
