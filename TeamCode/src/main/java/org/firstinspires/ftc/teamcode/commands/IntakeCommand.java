@@ -20,8 +20,20 @@ public class IntakeCommand extends CommandBase {
         addRequirements(m_intake);
     }
 
+    public IntakeCommand(IntakeSubsystem intake, double power){
+        m_intake = intake;
+        m_power = () -> power;
+
+        addRequirements(m_intake);
+    }
+
     @Override
     public void execute(){
         m_intake.setPower(m_power.getAsDouble());
+    }
+
+    @Override
+    public void end(boolean cancelled) {
+        m_intake.setPower(0);
     }
 }
