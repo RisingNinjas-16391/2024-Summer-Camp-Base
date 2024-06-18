@@ -69,7 +69,7 @@ public class RobotContainer {
 
     public void configureButtonBindings() {
         m_outtakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(10)));
-        m_intakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(-20)));
+        m_intakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(-30)));
 
         m_resetHeading.whenPressed(new InstantCommand(m_driveSubsystem::resetHeading));
     }

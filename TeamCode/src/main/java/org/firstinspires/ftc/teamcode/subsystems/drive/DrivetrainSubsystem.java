@@ -112,6 +112,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void resetHeading() {
-        m_headingOffset = getHeading();
+        m_headingOffset = m_drive.getRawExternalHeading();
     }
 }
