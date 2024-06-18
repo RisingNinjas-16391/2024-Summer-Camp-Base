@@ -72,6 +72,7 @@ public class MecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDrive
     private final VoltageSensor batteryVoltageSensor;
 
     private IMU imu;
+    private double lastYawHeading = 0;
 
     private final List<Integer> lastEncPositions = new ArrayList<>();
     private final List<Integer> lastEncVels = new ArrayList<>();
@@ -288,7 +289,20 @@ public class MecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDrive
 
     @Override
     public double getRawExternalHeading() {
-        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        if ((Math.toDegrees(lastYawHeading) > 179.5 && Math.toDegrees(lastYawHeading) < 180.5)){
+            if (imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) > 335 && imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) < 45) {
+                lastYawHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) + Math.PI;
+                return lastYawHeading;
+            }
+            lastYawHeading = Math.PI;
+            return Math.PI;
+        } else {
+            lastYawHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+            return lastYawHeading;
+        }
+
+
     }
 
     @Override
