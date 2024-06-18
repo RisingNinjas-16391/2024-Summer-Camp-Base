@@ -11,17 +11,25 @@ import org.firstinspires.ftc.teamcode.commands.TeleOpDriveCommand;
 import org.firstinspires.ftc.teamcode.subsystems.claw.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.drive.DrivetrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.pivot.PivotSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.shooter.ShooterSubsystem;
 
 
 public class RobotContainer {
     private final DrivetrainSubsystem m_driveSubsystem;
 
+    private final PivotSubsystem m_pivotSubsystem;
+    private final IntakeSubsystem m_intakeSubsystem;
+
     private final GamepadEx m_driverController;
     private final GamepadEx m_operatorController;
 
     public RobotContainer(HardwareMap hwMap, Gamepad gamepad1, Gamepad gamepad2, int autoNum){
         m_driveSubsystem = new DrivetrainSubsystem(hwMap, false);
+
+        m_pivotSubsystem = new PivotSubsystem(hwMap);
+        m_intakeSubsystem = new IntakeSubsystem(hwMap);
+
         m_driverController = new GamepadEx(gamepad1);
         m_operatorController = new GamepadEx(gamepad2);
 
@@ -51,7 +59,7 @@ public class RobotContainer {
     private void setAutoCommands(int chooser) {
         switch (chooser) {
             case 1:
-                new BlueAutoCommand(m_driveSubsystem).schedule();
+                new BlueAutoCommand(m_driveSubsystem, m).schedule();
                 break;
             case 2:
                 new RedAutoCommand(m_driveSubsystem).schedule();
