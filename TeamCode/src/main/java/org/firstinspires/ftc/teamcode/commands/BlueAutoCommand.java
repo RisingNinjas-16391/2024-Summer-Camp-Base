@@ -10,9 +10,14 @@ public class BlueAutoCommand extends SequentialCommandGroup {
         addCommands(
                 new FollowTrajectoryCommand(drive, drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                         // Add movements here
-                        .forward(1)
-                        .turn(Math.toRadians(90))
-                        .strafeLeft(10)
+                        .back(20)
+                        .strafeRight(56)
+                        .forward(10)
+                        .back(10)
+                        .forward(10)
+                        .back(43)
+                        .strafeRight(45)
+                        .forward(65)
                         .build()
                 )
         );

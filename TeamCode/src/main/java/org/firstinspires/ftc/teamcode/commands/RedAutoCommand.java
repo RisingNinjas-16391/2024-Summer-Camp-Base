@@ -16,9 +16,14 @@ public class RedAutoCommand extends SequentialCommandGroup {
         addCommands(
                 new FollowTrajectoryCommand(drive, drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                         // Add movements here
-                        .forward(10)
-                        .turn(Math.toRadians(90))
-                        .strafeLeft(10)
+                        .back(30)
+                        .strafeLeft(62)
+                        .forward(30)
+                        .back(15)
+                        .forward(15)
+                        .back(43)
+                        .strafeLeft(50)
+                        .forward(70)
                         .build()
 
                 )
