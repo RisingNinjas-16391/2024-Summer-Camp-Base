@@ -39,6 +39,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.subsystems.drive.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.drive.trajectorysequence.TrajectorySequenceBuilder;
@@ -289,20 +290,15 @@ public class MecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDrive
 
     @Override
     public double getRawExternalHeading() {
-        if ((Math.toDegrees(lastYawHeading) > 179.5 && Math.toDegrees(lastYawHeading) < 180.5)){
-            if (imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) > 335 && imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) < 45) {
-                lastYawHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) + Math.PI;
-                return lastYawHeading;
-            }
-            lastYawHeading = Math.PI;
-            return Math.PI;
-        } else {
-            lastYawHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-
-            return lastYawHeading;
-        }
-
-
+//        if (imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) - lastYawHeading > (Math.PI * 90.0 / 180.0)) {
+//            lastYawHeading = lastYawHeading + Math.PI * 2.0;
+//            return lastYawHeading;
+//        } else if (imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) - lastYawHeading < -(Math.PI * 90.0 / 180.0)){
+//            lastYawHeading = lastYawHeading - Math.PI * 2.0;
+//            return lastYawHeading;
+//        }
+        lastYawHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        return lastYawHeading;
     }
 
     @Override

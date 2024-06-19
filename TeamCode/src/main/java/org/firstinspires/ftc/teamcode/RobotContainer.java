@@ -35,7 +35,7 @@ public class RobotContainer {
 
 
     public RobotContainer(HardwareMap hwMap, Gamepad gamepad1, Gamepad gamepad2, int autoNum){
-        m_driveSubsystem = new DrivetrainSubsystem(hwMap, false);
+        m_driveSubsystem = new DrivetrainSubsystem(hwMap, true);
         m_intake = new IntakeSubsystem(hwMap);
         m_intakeSubsystem = new IntakeSubsystem(hwMap);
 
@@ -66,7 +66,7 @@ public class RobotContainer {
                 m_driverController::getLeftX, m_driverController::getRightX));
 
         m_intake.setDefaultCommand(new IntakeCommand(m_intake,
-                () -> (m_driverController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) -
+                () -> 0.75 * (m_driverController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) -
                         m_driverController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER))));
 
     }
