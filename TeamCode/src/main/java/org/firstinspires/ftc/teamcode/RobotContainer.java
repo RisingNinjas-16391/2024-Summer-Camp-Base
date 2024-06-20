@@ -30,6 +30,8 @@ public class RobotContainer {
     private final GamepadButton m_outtakePosition;
     private final GamepadButton m_intakePosition;
     private final GamepadButton m_autoScore;
+    private final GamepadButton m_autoScore2;
+
     private final GamepadButton m_resetHeading;
 
 
@@ -43,6 +45,8 @@ public class RobotContainer {
         m_outtakePosition = new GamepadButton(m_driverController, GamepadKeys.Button.A);
         m_intakePosition = new GamepadButton(m_driverController, GamepadKeys.Button.B);
         m_autoScore = new GamepadButton(m_driverController, GamepadKeys.Button.Y);
+        m_autoScore2 = new GamepadButton(m_driverController, GamepadKeys.Button.X);
+
 
         m_resetHeading = new GamepadButton(m_driverController, GamepadKeys.Button.START);
 
@@ -81,6 +85,11 @@ public class RobotContainer {
                 new PivotCommand(m_pivotSubsystem, Math.toRadians(-30))
                 ));
 
+        m_autoScore2.whenPressed(new SequentialCommandGroup(
+                new PivotCommand(m_pivotSubsystem, Math.toRadians(20)).withTimeout(500),
+                new IntakeCommand(m_intakeSubsystem, 1).withTimeout(500),
+                new PivotCommand(m_pivotSubsystem, Math.toRadians(-30))
+        ));
         m_resetHeading.whenPressed(new InstantCommand(m_driveSubsystem::resetHeading));
     }
 
