@@ -43,6 +43,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.subsystems.drive.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.drive.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.subsystems.drive.trajectorysequence.TrajectorySequenceRunner;
+import org.firstinspires.ftc.teamcode.util.LazyImu;
 import org.firstinspires.ftc.teamcode.util.LynxModuleUtil;
 
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class MecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDrive
     private final List<DcMotorEx> motors;
     private final VoltageSensor batteryVoltageSensor;
 
-    private IMU imu;
+    private LazyImu imu;
     private double lastYawHeading = 0;
 
     private final List<Integer> lastEncPositions = new ArrayList<>();
@@ -102,10 +103,8 @@ public class MecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDrive
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
-        imu = hardwareMap.get(IMU.class, "imu");
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+        imu = new LazyImu(hardwareMap, "imu", new RevHubOrientationOnRobot(
                 DriveConstants.LOGO_FACING_DIR, DriveConstants.USB_FACING_DIR));
-        imu.initialize(parameters);
 
         for (DcMotorEx motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
@@ -289,26 +288,13 @@ public class MecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDrive
 
     @Override
     public double getRawExternalHeading() {
-//        if (lastYawHeading - imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) > Math.PI) {
-//            try {
-//                lastYawHeading = lastYawHeading + getExternalHeadingVelocity() * 0.02;
-//            } catch (Exception e) {
-//
-//            }
-//            return lastYawHeading;
-//        } else {
-//            lastYawHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-//            return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-//        }
-
-        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-
+        return imu.get().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
     }
 
     @Override
     public Double getExternalHeadingVelocity() {
-        return (double) imu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+        return (double) imu.get().getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
     }
 
     public Double getHeading() {
