@@ -16,8 +16,17 @@ public class BlueAutoTesting {
                         drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                                 // Add movements here
                                 .forward(10)
-                                .turn(Math.toRadians(90))
-                                .strafeLeft(10)
+                                .strafeRight(15)
+                                .forward(20)
+                                .turn(Math.toRadians(180))
+                                .forward(20)
+                                .strafeRight(15)
+                                .turn(Math.toRadians(180))
+                                .forward(10)
+                                .turn(Math.toRadians(-90))
+                                .forward(10)
+                                .turn(Math.toRadians(-90))
+                                .forward(10)
                                 .build()
 
                 );
