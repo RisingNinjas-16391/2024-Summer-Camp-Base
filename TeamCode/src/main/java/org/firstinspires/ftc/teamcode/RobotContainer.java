@@ -33,7 +33,7 @@ public class RobotContainer {
 
 
     public RobotContainer(HardwareMap hwMap, Gamepad gamepad1, Gamepad gamepad2, int autoNum){
-        m_driveSubsystem = new DrivetrainSubsystem(hwMap, true);
+        m_driveSubsystem = new DrivetrainSubsystem(hwMap, false);
         m_pivotSubsystem = new PivotSubsystem(hwMap);
         m_intakeSubsystem = new IntakeSubsystem(hwMap);
 
@@ -54,6 +54,8 @@ public class RobotContainer {
 
     public void periodic(Telemetry telemetry) {
         m_driveSubsystem.updateTelemetry(telemetry);
+        m_pivotSubsystem.updateTelemetry(telemetry);
+        m_intakeSubsystem.updateTelemetry(telemetry);
 
         telemetry.update();
     }
@@ -70,7 +72,7 @@ public class RobotContainer {
     }
 
     public void configureButtonBindings() {
-        m_outtakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(10)));
+        m_outtakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(40)));
         m_intakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(-20)));
 
         m_resetHeading.whenPressed(new InstantCommand(m_driveSubsystem::resetHeading));
