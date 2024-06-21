@@ -23,6 +23,7 @@ import org.firstinspires.ftc.teamcode.subsystems.drive.trajectorysequence.sequen
 import org.firstinspires.ftc.teamcode.subsystems.drive.trajectorysequence.sequencesegment.WaitSegment;
 import org.firstinspires.ftc.teamcode.subsystems.drive.trajectorysequence.sequencesegment.SequenceSegment;
 import org.firstinspires.ftc.teamcode.subsystems.drive.trajectorysequence.sequencesegment.TrajectorySegment;
+import org.firstinspires.ftc.teamcode.subsystems.pivot.PivotSubsystem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -675,5 +676,10 @@ public class TrajectorySequenceBuilder {
 
     private interface AddPathCallback {
         void run();
+    }
+
+    public static class PivotaddTemporalMarkerCommand {
+        public PivotaddTemporalMarkerCommand(PivotSubsystem pivot, double v) {
+        }
     }
 }

@@ -22,10 +22,6 @@ public class RedAutoTesting {
 
                 );
 
-        meepMeep.setBackground(MeepMeep.Background.GRID_GRAY)
-                .setDarkMode(true)
-                .setBackgroundAlpha(0.95f)
-                .addEntity(myBot)
-                .start();
+
     }
 }
