@@ -2,25 +2,39 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 
-import org.firstinspires.ftc.teamcode.subsystems.claw.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.drive.DrivetrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.commands.IntakeCommand;
-import org.firstinspires.ftc.teamcode.subsystems.shooter.ShooterSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.claw.ClawSubsystem;
-import org.firstinspires.ftc.teamcode.commands.ClawCommand;
+import org.firstinspires.ftc.teamcode.subsystems.outtake.OuttakeSubsystem;
 
 public class RedAutoCommand extends SequentialCommandGroup {
-    public RedAutoCommand(DrivetrainSubsystem drive) {
+    public RedAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, OuttakeSubsystem outtake) {
         addCommands(
                 new FollowTrajectoryCommand(drive, drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                         // Add movements here
-                        .forward(10)
-                        .turn(Math.toRadians(90))
-                        .strafeLeft(10)
+                        .back(50)
+                        .strafeLeft(56)
+                        .forward(43)
+                        .addTemporalMarker(new SequentialCommandGroup(
+                                new OuttakeCommand(outtake, () -> 312.0).withTimeout(3000),
+                                new OuttakeCommand(outtake, () -> 0.0).withTimeout(100)
+                        )::schedule)
+                        .back(5)
+                        .addTemporalMarker(new SequentialCommandGroup(
+                                new IntakeCommand(intake, () -> 312.0).withTimeout(100),
+                                new OuttakeCommand(outtake, () -> 312.0).withTimeout(100)
+                        )::schedule)
+                        .forward(2.25)
+                        .waitSeconds(3)
+                        .addTemporalMarker(new SequentialCommandGroup(
+                                new IntakeCommand(intake, () -> 0.0).withTimeout(100),
+                                new OuttakeCommand(outtake, () -> 0.0).withTimeout(100)
+                        )::schedule)
+                        .back(49)
+                        .strafeLeft(60)
+                        .forward(72)
                         .build()
-
                 )
         );
     }

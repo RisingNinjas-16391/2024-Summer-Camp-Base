@@ -37,7 +37,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        m_drive.updateJustPoseEstimate();
+        try {
+            m_drive.updateJustPoseEstimate();
+
+        } catch (Exception e) {
+
+        }
 
 
     }

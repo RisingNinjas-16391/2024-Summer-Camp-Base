@@ -12,6 +12,8 @@ public class FollowTrajectoryCommand extends CommandBase {
     public FollowTrajectoryCommand(DrivetrainSubsystem drivetrain, TrajectorySequence trajectory){
         this.drivetrain = drivetrain;
         this.trajectory = trajectory;
+
+        addRequirements(drivetrain);
     }
 
     @Override

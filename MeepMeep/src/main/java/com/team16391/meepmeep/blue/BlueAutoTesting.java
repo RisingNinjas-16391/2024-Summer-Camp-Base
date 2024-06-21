@@ -15,10 +15,17 @@ public class BlueAutoTesting {
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                                 // Add movements here
-                                .forward(10)
-                                .turn(Math.toRadians(90))
-                                .strafeLeft(10)
+                                .back(17)
+                                .strafeLeft(47)
+                                //put pre-loaded pixel in code
+                                //pick up green pixel code
+                                //put green pixel in code
+                                .back(33)
+                                .strafeLeft(28)
+                                .forward(55)
                                 .build()
+
+
 
                 );
 
