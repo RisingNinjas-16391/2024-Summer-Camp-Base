@@ -17,13 +17,15 @@ public class RedAutoCommand extends SequentialCommandGroup {
         addCommands(
                 new FollowTrajectoryCommand(drive, drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                         // Add movements here
-                        .back(30)
-                        .strafeLeft(62)
-                        .forward(30)
-                        .back(15)
-                        .forward(15)
-                        .back(43)
-                        .strafeLeft(50)
+                        .forward(42)
+                        .strafeRight(57)
+                        .back(42)
+                        .addTemporalMarker(new IntakeCommand(intake, -1)::schedule)
+                        .waitSeconds(1)
+                        .addTemporalMarker(new IntakeCommand(intake, 0)::schedule)
+                        .forward(49)
+                        .strafeRight(59)
+                        .turn(Math.toRadians(180))
                         .forward(70)
                         .build()
 

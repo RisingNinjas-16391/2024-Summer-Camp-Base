@@ -11,14 +11,15 @@ public BlueAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake) {
         addCommands(
                 new FollowTrajectoryCommand(drive, drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                         // Add movements here
-                        .back(20)
-                        .strafeRight(56)
-                        .forward(10)
-                        .back(10)
-                        .forward(10)
-                        .back(43)
-                        .strafeRight(45)
-                        .forward(65)
+                        .forward(42)
+                        .strafeLeft(57)
+                        .back(42)
+                        .addTemporalMarker(new IntakeCommand(intake, -1)::schedule)
+                        .waitSeconds(1)
+                        .addTemporalMarker(new IntakeCommand(intake, 0)::schedule)
+                        .forward(49)
+                        .strafeLeft(60)
+                        .back(70)
                         .build()
                 )
         );
