@@ -17,6 +17,8 @@ public class BlueAutoTesting {
                                 // Add movements here
                                 .back(21)
                                 .strafeLeft(38)
+                                .back(40)
+
                                 .build()
 
                 );

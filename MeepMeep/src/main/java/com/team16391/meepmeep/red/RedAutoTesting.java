@@ -16,8 +16,7 @@ public class RedAutoTesting {
                         drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                                 // Add movements here
                                 .forward(10)
-                                .turn(Math.toRadians(90))
-                                .strafeLeft(10)
+                                .strafeRight(10)
                                 .build()
 
                 );

@@ -12,20 +12,29 @@ public class BlueAutoCommand extends SequentialCommandGroup {
         addCommands(
                 new FollowTrajectoryCommand(drive, drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                         // Add movements here
+                        .addTemporalMarker(new PivotCommand(pivot,Math.toRadians(20))::schedule)
                         .back(21) //move back
-                        .strafeRight(44)//move right
-                        .forward(5)
+                        .strafeRight(55)//move right
+                        .forward(6)
+                        .addTemporalMarker(new IntakeCommand(intake, -1).withTimeout(900)::schedule)
+                        .back(5)
+                        .addTemporalMarker(new PivotCommand(pivot,0)::schedule)
+                        .addTemporalMarker(new IntakeCommand(intake, 1).withTimeout(500)::schedule)
+                        .waitSeconds(1)
+                        .addTemporalMarker(new PivotCommand(pivot,Math.toRadians(-20))::schedule)
+                        .addTemporalMarker(new IntakeCommand(intake, 1)::schedule)
+                        .waitSeconds(0.5)
+                        .forward(9)
+                        .addTemporalMarker(new PivotCommand(pivot,Math.toRadians(20))::schedule)
+                        .waitSeconds(0.3)
+                        .addTemporalMarker(new IntakeCommand(intake, -1)::schedule)
+                        .waitSeconds(1.0)
+                        .back(35)
+                        .addTemporalMarker(new IntakeCommand(intake, 0)::schedule)
+                        .strafeRight(60)
+                        .forward(60)
                         .build()
 
-                ),
-
-                new IntakeCommand(intake, 1),
-
-                new FollowTrajectoryCommand(drive, drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                        .back(35)//move back
-                        .strafeRight(57)//move right
-                        .forward(75)//move forward
-                        .build()
                 )
         );
     }
