@@ -14,7 +14,7 @@ public class RedAutoCommand extends SequentialCommandGroup {
                         // Add movements here
                         .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(20)).withTimeout(100)::schedule)
                         .back(20)
-                        .strafeLeft(50)
+                        .strafeLeft(53)
                         .addTemporalMarker(
                                 new IntakeCommand(intake, 1)::schedule)
                         .back(5)
@@ -24,7 +24,7 @@ public class RedAutoCommand extends SequentialCommandGroup {
                         .forward(7)
                         .waitSeconds(1)
                         .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(20)).withTimeout(1000)::schedule)
-                        .forward(2)
+                        .forward(3)
                         .addTemporalMarker(
                                 new IntakeCommand(intake, 1)::schedule)
                         .waitSeconds(0.5)
@@ -38,11 +38,15 @@ public class RedAutoCommand extends SequentialCommandGroup {
                         .back(35)
                         .turn(Math.toRadians(90))
                         .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(20)).withTimeout(100)::schedule)
-                        .forward(38)
+                        .addTemporalMarker(
+                                new IntakeCommand(intake, 0)::schedule)
+                        .forward(35)
                         .waitSeconds(0.5)
                         .addTemporalMarker(
                                 new IntakeCommand(intake, 1)::schedule)
-                        .back(30)
+                        .back(40)
+                        .strafeLeft(50)
+                        .forward(60)
                         .build()
                 )
         );

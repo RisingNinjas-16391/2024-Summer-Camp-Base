@@ -14,7 +14,7 @@ public BlueAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, PivotS
                         // Add movements here
                         .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(20)).withTimeout(100)::schedule)
                         .back(20)
-                        .strafeRight(48)
+                        .strafeRight(53)
                         .forward(10)
                         .addTemporalMarker(
                                 new IntakeCommand(intake, 1)::schedule)
@@ -29,7 +29,7 @@ public BlueAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, PivotS
                         .addTemporalMarker(
                                 new IntakeCommand(intake, 1)::schedule)
                         .waitSeconds(0.5)
-                        .back(38)
+                        .back(43)
                         .turn(Math.toRadians(90))
                         .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(-30)).withTimeout(100)::schedule)
                         .addTemporalMarker(
@@ -43,9 +43,9 @@ public BlueAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, PivotS
                         .waitSeconds(0.5)
                         .addTemporalMarker(
                                 new IntakeCommand(intake, 1)::schedule)
-                        .back(45)
-                        .strafeRight(40)
-                        .forward(60)
+                        .back(40)
+                        .strafeRight(50)
+                        .forward(65)
                         .build()
                 )
         );

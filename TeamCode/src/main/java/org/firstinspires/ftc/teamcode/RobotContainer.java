@@ -36,7 +36,7 @@ public class RobotContainer {
 
 
     public RobotContainer(HardwareMap hwMap, Gamepad gamepad1, Gamepad gamepad2, int autoNum){
-        m_driveSubsystem = new DrivetrainSubsystem(hwMap, true);
+        m_driveSubsystem = new DrivetrainSubsystem(hwMap, false);
         m_pivotSubsystem = new PivotSubsystem(hwMap);
         m_intakeSubsystem = new IntakeSubsystem(hwMap);
 

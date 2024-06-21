@@ -22,7 +22,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public static double omegaSpeed = 0.5;
     private final boolean m_fieldCentric;
-    private double m_headingOffset = 0;
+    private double m_headingOffset = Math.toRadians(0);
 
     public DrivetrainSubsystem(@NonNull HardwareMap hardwareMap, Boolean fieldCentric) {
         m_drive = new MecanumDrive(hardwareMap);
