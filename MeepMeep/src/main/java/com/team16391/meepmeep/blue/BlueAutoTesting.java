@@ -15,11 +15,15 @@ public class BlueAutoTesting {
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                                 // Add movements here
+
+                                .forward(10)
+                                .turn(Math.toRadians(135))
                                 .forward(10)
                                 .turn(Math.toRadians(90))
-                                .strafeLeft(10)
+                                .forward(10)
+                                .turn(Math.toRadians(135))
+                                .forward(10)
                                 .build()
-
                 );
 
         meepMeep.setBackground(MeepMeep.Background.GRID_GRAY)

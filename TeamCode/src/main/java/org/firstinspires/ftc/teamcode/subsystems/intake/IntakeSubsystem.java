@@ -14,8 +14,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class IntakeSubsystem extends SubsystemBase {
     private final DcMotorEx m_intake;
 
-    public IntakeSubsystem(@NonNull HardwareMap hardwareMap){
-        m_intake = hardwareMap.get(DcMotorEx.class, "intake");
+    public IntakeSubsystem(@NonNull HardwareMap hardwareMap, String name){
+        m_intake = hardwareMap.get(DcMotorEx.class, name);
         m_intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m_intake.setDirection(DcMotorSimple.Direction.FORWARD);
 
