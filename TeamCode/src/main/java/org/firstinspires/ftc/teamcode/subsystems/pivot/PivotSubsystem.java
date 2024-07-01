@@ -16,29 +16,40 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class PivotSubsystem extends SubsystemBase {
 
     private final DcMotorEx pivot;
+    private final DcMotorEx slave;
+
 
     //TODO: Tune kP for arm. If the arm moves too fast lower, if it moves too slow increase
-    public static PIDFController kPIDF = new PIDFController(1.0,0,0,0.2);
+    public static PIDFController kPIDF = new PIDFController(.7,0,0,0.2);
 
     //TODO: Replace with preferred starting angle upon initialization
     private double desiredAngle = Math.toRadians(0);
 
     //TODO: Tune for arm, if the arm goes up without doing anything lower, if it falls then increase it
-    public static double kG = -0.2;
+    public static double kG = -0.25;
 
     //TODO: Replace with starting angle offset
     public static double angleOffset = -30;
 
-    public static double tolerance = 0.2;
+    public static double tolerance = 0.1;
 
     public PivotSubsystem(@NonNull HardwareMap hwMap){
         pivot = hwMap.get(DcMotorEx.class, "pivot");
         pivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        pivot.setDirection(DcMotorSimple.Direction.REVERSE);
+        pivot.setDirection(DcMotorSimple.Direction.FORWARD);
         pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         kPIDF.setTolerance(tolerance);
+
+
+
+        slave= hwMap.get(DcMotorEx.class,"slave");
+        slave.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slave.setDirection(DcMotorSimple.Direction.FORWARD);
+        slave.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slave.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
     }
 
     public void updateTelemetry(Telemetry telemetry) {
@@ -53,6 +64,7 @@ public class PivotSubsystem extends SubsystemBase {
 
     public void setPower(double power){
         pivot.setPower(power);
+        slave.setPower(power);
     }
 
     public double getAngle() {

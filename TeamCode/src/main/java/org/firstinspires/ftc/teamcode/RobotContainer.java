@@ -73,22 +73,22 @@ public class RobotContainer {
         m_pivotSubsystem.setDefaultCommand(new PivotPowerCommand(
                 m_pivotSubsystem, () -> (m_driverController.getButton(GamepadKeys.Button.LEFT_BUMPER) ? 1 : m_driverController.getButton(GamepadKeys.Button.RIGHT_BUMPER) ? -1 : 0)));
 
-        m_intakeSubsystem.setDefaultCommand(new IntakeCommand(m_intakeSubsystem, () -> m_driverController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) - m_driverController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) - 0.3));
+        m_intakeSubsystem.setDefaultCommand(new IntakeCommand(m_intakeSubsystem, () -> m_driverController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) - m_driverController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)-.1 ));
     }
 
     public void configureButtonBindings() {
-        m_outtakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(200)));
-        m_intakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(-30)));
+        m_outtakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(140)));
+        m_intakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(-25)));
         m_autoScore.whenPressed(new SequentialCommandGroup(
-                new PivotCommand(m_pivotSubsystem, Math.toRadians(200)).withTimeout(500),
-                new IntakeCommand(m_intakeSubsystem, 1).withTimeout(500),
-                new PivotCommand(m_pivotSubsystem, Math.toRadians(-30))
+                new PivotCommand(m_pivotSubsystem, Math.toRadians(150)).withTimeout(600),
+                new IntakeCommand(m_intakeSubsystem, 1).withTimeout(600),
+                new PivotCommand(m_pivotSubsystem, Math.toRadians(-25))
                 ));
 
         m_autoScore2.whenPressed(new SequentialCommandGroup(
-                new PivotCommand(m_pivotSubsystem, Math.toRadians(20)).withTimeout(500),
+                new PivotCommand(m_pivotSubsystem, Math.toRadians(60)).withTimeout(500),
                 new IntakeCommand(m_intakeSubsystem, 1).withTimeout(500),
-                new PivotCommand(m_pivotSubsystem, Math.toRadians(-30))
+                new PivotCommand(m_pivotSubsystem, Math.toRadians(-25))
         ));
         m_resetHeading.whenPressed(new InstantCommand(m_driveSubsystem::resetHeading));
     }
