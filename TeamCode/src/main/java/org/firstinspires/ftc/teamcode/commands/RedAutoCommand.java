@@ -11,10 +11,22 @@ public class RedAutoCommand extends SequentialCommandGroup {
     public RedAutoCommand(DrivetrainSubsystem drive, SingleMotorSubsystem intake, SingleMotorSubsystem shooter) {
         addCommands(
                 new FollowTrajectoryCommand(drive, drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
-                        // Add movements here
-                        .forward(10)
-                        .turn(Math.toRadians(90))
-                        .strafeLeft(10)
+                        // Add movements here1`
+                        .forward(28)
+                        .strafeRight(50)
+                        //shoot
+                        .forward(38)
+                        //intake
+                        //shoot
+                        .back(38)
+                        .turn(Math.toRadians(180))
+                        .forward(15)
+                        //intake
+                        .back(39)
+                        //shoot
+                        .turn(Math.toRadians(180))
+                        .strafeRight(49)
+                        .back(59)
                         .build()
 
                 )
