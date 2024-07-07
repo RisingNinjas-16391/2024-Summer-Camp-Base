@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.commands.BlueAutoCommand;
 import org.firstinspires.ftc.teamcode.commands.ClawCommand;
+import org.firstinspires.ftc.teamcode.commands.ColorCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.commands.PivotCommand;
 //import org.firstinspires.ftc.teamcode.commands.PivotPowerCommand;
@@ -26,6 +27,10 @@ import org.firstinspires.ftc.teamcode.subsystems.claw.ColorSubsystem;
 public class RobotContainer {
     private final DrivetrainSubsystem m_driveSubsystem;
     private final ColorSubsystem m_ConeSensor;
+    int redvalue =0;
+    int bluevalue=0;
+    int greenvalue=0;
+    boolean hascone=false;
     private final PivotSubsystem m_pivotSubsystem;
     private final IntakeSubsystem m_intakeSubsystem;
 
@@ -84,8 +89,13 @@ public class RobotContainer {
         m_extension.updateTelemetry(telemetry);
         m_claw.updateTelemetry(telemetry);
 
+
+
+        if (redvalue+bluevalue>100) {hascone= true;
+        }
         telemetry.update();
     }
+
 
     public void setDefaultCommands(){
         m_driveSubsystem.setDefaultCommand(new TeleOpDriveCommand(
@@ -106,7 +116,8 @@ public class RobotContainer {
                 new WaitUntilCommand(m_score::get),
                 new ClawCommand(m_claw,180).withTimeout(200),
                 new ClawCommand(m_extension,0).alongWith(new ClawCommand(m_wrist,0)).withTimeout(300),
-                new PivotCommand(m_pivotSubsystem,Math.toRadians(0))
+                new PivotCommand(m_pivotSubsystem,Math.toRadians(0)),
+                new WaitUntilCommand(hascone==true)
                 ));
 
 
