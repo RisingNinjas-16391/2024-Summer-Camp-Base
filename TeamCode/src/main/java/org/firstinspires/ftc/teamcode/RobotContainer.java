@@ -21,9 +21,11 @@ import org.firstinspires.ftc.teamcode.subsystems.drive.DrivetrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pivot.PivotSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.claw.ClawSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.claw.ColorSubsystem;
 
 public class RobotContainer {
     private final DrivetrainSubsystem m_driveSubsystem;
+    private final ColorSubsystem m_ConeSensor;
     private final PivotSubsystem m_pivotSubsystem;
     private final IntakeSubsystem m_intakeSubsystem;
 
@@ -47,6 +49,7 @@ public class RobotContainer {
         m_driveSubsystem = new DrivetrainSubsystem(hwMap, false);
         m_pivotSubsystem = new PivotSubsystem(hwMap);
         m_intakeSubsystem = new IntakeSubsystem(hwMap);
+        m_ConeSensor = new ColorSubsystem(hwMap);
         m_extension = new ClawSubsystem(hwMap);
         m_claw = new ClawSubsystem(hwMap);
         m_wrist = new ClawSubsystem(hwMap);
@@ -74,6 +77,7 @@ public class RobotContainer {
 
     public void periodic(Telemetry telemetry) {
         m_driveSubsystem.updateTelemetry(telemetry);
+        m_ConeSensor.updateTelemetry(telemetry);
         m_intakeSubsystem.updateTelemetry(telemetry);
         m_pivotSubsystem.updateTelemetry(telemetry);
         m_wrist.updateTelemetry(telemetry);
