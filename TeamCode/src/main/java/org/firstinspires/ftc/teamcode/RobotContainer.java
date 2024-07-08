@@ -28,10 +28,7 @@ import org.firstinspires.ftc.teamcode.subsystems.claw.ColorSubsystem;
 public class RobotContainer {
     private final DrivetrainSubsystem m_driveSubsystem;
     private final ColorSubsystem m_ConeSensor;
-    int redvalue =0;
-    int bluevalue=0;
-    int greenvalue=0;
-    boolean hascone=false;
+
     private final PivotSubsystem m_pivotSubsystem;
     private final IntakeSubsystem m_intakeSubsystem;
 
@@ -51,7 +48,7 @@ public class RobotContainer {
 
     private final GamepadButton m_resetHeading;
 
-    private Trigger m_hasCone;
+    private final Trigger m_hasCone;
 
     public RobotContainer(HardwareMap hwMap, Gamepad gamepad1, Gamepad gamepad2, int autoNum){
         m_driveSubsystem = new DrivetrainSubsystem(hwMap, false);
