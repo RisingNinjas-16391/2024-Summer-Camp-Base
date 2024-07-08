@@ -90,6 +90,7 @@ public class RobotContainer {
         m_wrist.updateTelemetry(telemetry);
         m_extension.updateTelemetry(telemetry);
         m_claw.updateTelemetry(telemetry);
+        m_ConeSensor.LEDon(true);
 
 
         telemetry.update();

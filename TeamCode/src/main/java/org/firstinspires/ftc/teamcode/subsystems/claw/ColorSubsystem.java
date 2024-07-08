@@ -25,8 +25,8 @@ public class ColorSubsystem extends SubsystemBase {
         telemetry.addData("green Value",m_ConeSensor.green());
     }
 
-    public void turnToAngle(double angle) {
-        //m_claw.turnToAngle(angle);
+    public void LEDon(boolean on) {
+        m_ConeSensor.enableLed(on);
 
     }
 
