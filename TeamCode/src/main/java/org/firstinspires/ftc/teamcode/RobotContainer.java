@@ -95,9 +95,6 @@ public class RobotContainer {
         m_claw.updateTelemetry(telemetry);
 
 
-
-        if (redvalue+bluevalue>100) {hascone= true;
-        }
         telemetry.update();
     }
 
