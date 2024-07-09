@@ -20,18 +20,18 @@ public class PivotSubsystem extends SubsystemBase {
 
 
     //TODO: Tune kP for arm. If the arm moves too fast lower, if it moves too slow increase
-    public static PIDFController kPIDF = new PIDFController(.7,0,0,0.2);
+    public static PIDFController kPIDF = new PIDFController(1,1,.1,0);
 
     //TODO: Replace with preferred starting angle upon initialization
-    private double desiredAngle = Math.toRadians(0);
+    private double desiredAngle = Math.toRadians(10);
 
     //TODO: Tune for arm, if the arm goes up without doing anything lower, if it falls then increase it
-    public static double kG = -0.25;
+    public static double kG = 0;
 
     //TODO: Replace with starting angle offset
-    public static double angleOffset = -30;
+    public static double angleOffset = 5;
 
-    public static double tolerance = 0.1;
+    public static double tolerance = 0.05;
 
     public PivotSubsystem(@NonNull HardwareMap hwMap){
         pivot = hwMap.get(DcMotorEx.class, "pivot");
@@ -54,11 +54,11 @@ public class PivotSubsystem extends SubsystemBase {
 
     public void updateTelemetry(Telemetry telemetry) {
         telemetry.addLine("Pivot");
-        telemetry.addData("Encoder Ticks Pivot:", pivot.getCurrentPosition());
+        //telemetry.addData("Encoder Ticks Pivot:", pivot.getCurrentPosition());
         telemetry.addData("Pivot Angle Degrees", Math.toDegrees(getAngle()));
         telemetry.addData("Desired Pivot Angle Degrees", Math.toDegrees(desiredAngle));
         telemetry.addData("Pivot Power", calculatePID());
-        telemetry.addData("At Setpoint", atSetpoint());
+        //telemetry.addData("At Setpoint", atSetpoint());
 
     }
 

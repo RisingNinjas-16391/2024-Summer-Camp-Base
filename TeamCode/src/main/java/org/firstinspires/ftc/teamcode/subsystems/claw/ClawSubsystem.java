@@ -13,7 +13,7 @@ public class ClawSubsystem extends SubsystemBase {
     public ClawSubsystem(HardwareMap hwMap) {
         m_claw = new SimpleServo(hwMap, "claw", 0,
                 180, AngleUnit.DEGREES);
-        turnToAngle(90);
+        turnToAngle(0);
     }
 
     public void updateTelemetry(Telemetry telemetry) {
