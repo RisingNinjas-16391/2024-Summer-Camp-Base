@@ -31,7 +31,7 @@ public class ColorSubsystem extends SubsystemBase {
     }
 
     public boolean hasCone() {
-        return m_ConeSensor.blue()+m_ConeSensor.red() > 1000;
+        return m_ConeSensor.blue()+m_ConeSensor.red() > 500;
     }
 
 }

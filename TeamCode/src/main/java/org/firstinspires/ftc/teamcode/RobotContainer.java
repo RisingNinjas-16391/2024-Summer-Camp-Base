@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -14,6 +16,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.commands.BlueAutoCommand;
 import org.firstinspires.ftc.teamcode.commands.ClawCommand;
+import org.firstinspires.ftc.teamcode.commands.FollowTrajectoryCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.commands.PivotCommand;
 //import org.firstinspires.ftc.teamcode.commands.PivotPowerCommand;
@@ -55,7 +58,7 @@ public class RobotContainer {
     private final Trigger m_hasCone;
 
     public RobotContainer(HardwareMap hwMap, Gamepad gamepad1, Gamepad gamepad2, int autoNum){
-        m_driveSubsystem = new DrivetrainSubsystem(hwMap, false);
+        m_driveSubsystem = new DrivetrainSubsystem(hwMap, true);
         m_pivotSubsystem = new PivotSubsystem(hwMap);
         m_intakeSubsystem = new IntakeSubsystem(hwMap);
         m_ConeSensor = new ColorSubsystem(hwMap);
@@ -118,8 +121,8 @@ public class RobotContainer {
         //m_intakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(0)));
         //m_intakePosition.whenPressed(new ClawCommand(m_claw,0));
         //m_score.whenPressed(new ClawCommand(m_claw,45));
-        m_autoScore.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(20)));
-        m_autoScore2.whenPressed(new PivotCommand(m_pivotSubsystem,Math.toRadians(30)));
+        //m_autoScore.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(60)));
+        //m_autoScore2.whenPressed(new PivotCommand(m_pivotSubsystem,Math.toRadians(110)));
 
         //m_outtakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(200)));
         //m_intakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(0)));
@@ -127,38 +130,48 @@ public class RobotContainer {
                 new PivotCommand(m_pivotSubsystem, Math.toRadians(0)).withTimeout(500),
                 new ParallelCommandGroup(
                         new ClawCommand(m_claw,0),
-                        new ExtensionCommand(m_extension, 45),
                         new WristCommand(m_wrist,0)
                 ).withTimeout(500),
                 new WaitUntilCommand(m_ConeSensor::hasCone),
-                new ClawCommand(m_claw,45).withTimeout(300),
-                new PivotCommand(m_pivotSubsystem,Math.toRadians(10)),
-                new ExtensionCommand(m_extension, 0)
+                new ClawCommand(m_claw,45).withTimeout(150),
+                new PivotCommand(m_pivotSubsystem,Math.toRadians(30))
         ));
 
 
 
 
       m_autoScore.whenPressed(new SequentialCommandGroup(
-                new PivotCommand(m_pivotSubsystem, Math.toRadians(110)).withTimeout(500),
-                new ExtensionCommand(m_extension, 180).alongWith(new WristCommand(m_wrist,180)).withTimeout(500),
+              new ParallelCommandGroup(
+                      new PivotCommand(m_pivotSubsystem,Math.toRadians(150)),
+                      new WristCommand(m_wrist,180)
+              ).withTimeout(500),
                 new WaitUntilCommand(m_score::get),
                 new ClawCommand(m_claw,0).withTimeout(200),
-                new ExtensionCommand(m_extension,0).alongWith(new WristCommand(m_wrist,0)).withTimeout(300),
-                new PivotCommand(m_pivotSubsystem,Math.toRadians(10))
+              new ParallelCommandGroup(
+                      new PivotCommand(m_pivotSubsystem,Math.toRadians(30)),
+                      new WristCommand(m_wrist,0)
+              ).withTimeout(500)
                 ));
 
 
-     /*  m_autoScore2.whenPressed(new SequentialCommandGroup(
-                new PivotCommand(m_pivotSubsystem, Math.toRadians(120)).withTimeout(500),
-                new ClawCommand(m_extension, 180).alongWith(new ClawCommand(m_wrist,180)).withTimeout(500),
+        m_autoScore2.whenPressed(new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                        new PivotCommand(m_pivotSubsystem,Math.toRadians(170)),
+                        new WristCommand(m_wrist,180)
+                ).withTimeout(500),
                 new WaitUntilCommand(m_score::get),
-                new ClawCommand(m_claw,180).withTimeout(200),
-                new ClawCommand(m_extension,0).alongWith(new ClawCommand(m_wrist,0)).withTimeout(300),
-                new PivotCommand(m_pivotSubsystem,Math.toRadians(0))
-        ));*/
+                new ClawCommand(m_claw,0).withTimeout(200),
+                new ParallelCommandGroup(
+                        new PivotCommand(m_pivotSubsystem,Math.toRadians(30)),
+                        new WristCommand(m_wrist,0)
+                ).withTimeout(500)
 
-        //m_resetHeading.whenPressed(new InstantCommand(m_driveSubsystem::resetHeading));
+        ));
+
+
+
+
+        m_resetHeading.whenPressed(new InstantCommand(m_driveSubsystem::resetHeading));
 
         //m_hasCone.whenActive()
     }

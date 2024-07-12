@@ -20,7 +20,7 @@ public class PivotSubsystem extends SubsystemBase {
 
 
     //TODO: Tune kP for arm. If the arm moves too fast lower, if it moves too slow increase
-    public static PIDFController kPIDF = new PIDFController(1,1,.1,0);
+    public static PIDFController kPIDF = new PIDFController(.75,0.2,0,0);
 
     //TODO: Replace with preferred starting angle upon initialization
     private double desiredAngle = Math.toRadians(10);
@@ -42,9 +42,7 @@ public class PivotSubsystem extends SubsystemBase {
 
         kPIDF.setTolerance(tolerance);
 
-
-
-        slave= hwMap.get(DcMotorEx.class,"slave");
+        slave = hwMap.get(DcMotorEx.class,"slave");
         slave.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slave.setDirection(DcMotorSimple.Direction.FORWARD);
         slave.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
