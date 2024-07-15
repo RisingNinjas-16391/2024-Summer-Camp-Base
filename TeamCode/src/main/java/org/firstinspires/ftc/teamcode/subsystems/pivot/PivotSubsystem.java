@@ -39,7 +39,6 @@ public class PivotSubsystem extends SubsystemBase {
         pivot.setDirection(DcMotorSimple.Direction.FORWARD);
         pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         kPIDF.setTolerance(tolerance);
 
         slave = hwMap.get(DcMotorEx.class,"slave");

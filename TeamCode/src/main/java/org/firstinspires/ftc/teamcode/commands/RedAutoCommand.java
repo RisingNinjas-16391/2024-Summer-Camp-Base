@@ -3,17 +3,32 @@ package org.firstinspires.ftc.teamcode.commands;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.subsystems.claw.ClawSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.claw.WristSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.drive.DrivetrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pivot.PivotSubsystem;
 
 public class RedAutoCommand extends SequentialCommandGroup {
-    public RedAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, PivotSubsystem pivot) {
+    public RedAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, PivotSubsystem pivot, ClawSubsystem claw, WristSubsystem wrist) {
         addCommands(
                 new FollowTrajectoryCommand(drive, drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                         // Add movements here
-                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(35)).withTimeout(100)::schedule)
+                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(40)).withTimeout(300)::schedule)
+                        .back(60)
+                        .addTemporalMarker(new ClawCommand(claw, 0).withTimeout(2000)::schedule)
                         .forward(20)
+                        .strafeLeft(20)
+                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(180))::schedule)
+                        .addTemporalMarker(new WristCommand(wrist, 180).withTimeout(2000)::schedule)
+                        .forward(15)
+                        .addTemporalMarker(new ClawCommand(claw, 45).withTimeout(3000)::schedule)
+                        .addTemporalMarker(new WristCommand(wrist, 180)::schedule)
+                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(40))::schedule)
+                        .back(40)
+                        .build())
+
+                        /*
                         .strafeRight(50)
                         .back(15)
                         .forward(2)
@@ -39,7 +54,7 @@ public class RedAutoCommand extends SequentialCommandGroup {
                         .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(90)).withTimeout(700)::schedule)
                         .strafeRight(50)
                         .back(66)
-                       /* .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(35)).withTimeout(700)::schedule)
+                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(35)).withTimeout(700)::schedule)
                         .addTemporalMarker(new IntakeCommand(intake, -1)::schedule)
                         .forward(20)
                         .turn(Math.toRadians(-90))
@@ -76,8 +91,8 @@ public class RedAutoCommand extends SequentialCommandGroup {
                         .back(40)
                         .strafeLeft(50)
                         .forward(60)*/
-                        .build()
-                )
+
+
         );
     }
 }

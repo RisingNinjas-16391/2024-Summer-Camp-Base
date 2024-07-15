@@ -58,14 +58,13 @@ public class RobotContainer {
     private final Trigger m_hasCone;
 
     public RobotContainer(HardwareMap hwMap, Gamepad gamepad1, Gamepad gamepad2, int autoNum){
-        m_driveSubsystem = new DrivetrainSubsystem(hwMap, true);
+        m_driveSubsystem = new DrivetrainSubsystem(hwMap, false);
         m_pivotSubsystem = new PivotSubsystem(hwMap);
         m_intakeSubsystem = new IntakeSubsystem(hwMap);
         m_ConeSensor = new ColorSubsystem(hwMap);
-        m_extension = new ExtensionSubsystem(hwMap);
+        m_extension = new ExtensionSubsystem(hwMap, "extension");
         m_claw = new ClawSubsystem(hwMap);
         m_wrist = new WristSubsystem(hwMap);
-
         m_hasCone = new Trigger(m_ConeSensor::hasCone);
 
 
@@ -127,12 +126,14 @@ public class RobotContainer {
         //m_outtakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(200)));
         //m_intakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(0)));
         m_intakePosition.whenPressed(new SequentialCommandGroup(
-                new PivotCommand(m_pivotSubsystem, Math.toRadians(0)).withTimeout(500),
                 new ParallelCommandGroup(
+                        new PivotCommand(m_pivotSubsystem, Math.toRadians(0)).withTimeout(500),
                         new ClawCommand(m_claw,0),
-                        new WristCommand(m_wrist,0)
+                        new WristCommand(m_wrist,0),
+                        new ExtensionCommand(m_extension,1)
                 ).withTimeout(500),
                 new WaitUntilCommand(m_ConeSensor::hasCone),
+                new ExtensionCommand(m_extension,0).withTimeout(200),
                 new ClawCommand(m_claw,45).withTimeout(150),
                 new PivotCommand(m_pivotSubsystem,Math.toRadians(30))
         ));
@@ -146,6 +147,7 @@ public class RobotContainer {
                       new WristCommand(m_wrist,180)
               ).withTimeout(500),
                 new WaitUntilCommand(m_score::get),
+                new PivotCommand(m_pivotSubsystem,Math.toRadians(160)).withTimeout(100),
                 new ClawCommand(m_claw,0).withTimeout(200),
               new ParallelCommandGroup(
                       new PivotCommand(m_pivotSubsystem,Math.toRadians(30)),
@@ -179,10 +181,10 @@ public class RobotContainer {
     private void setAutoCommands(int chooser) {
         switch (chooser) {
             case 1:
-                new BlueAutoCommand(m_driveSubsystem, m_intakeSubsystem, m_pivotSubsystem).schedule();
+                new BlueAutoCommand(m_driveSubsystem, m_intakeSubsystem, m_pivotSubsystem,m_claw, m_wrist).schedule();
                 break;
             case 2:
-                new RedAutoCommand(m_driveSubsystem, m_intakeSubsystem, m_pivotSubsystem).schedule();
+                new RedAutoCommand(m_driveSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_claw, m_wrist).schedule();
                 break;
         }
 

@@ -3,16 +3,18 @@ package org.firstinspires.ftc.teamcode.commands;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.subsystems.claw.ClawSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.claw.WristSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.drive.DrivetrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pivot.PivotSubsystem;
 
 public class BlueAutoCommand extends SequentialCommandGroup {
-public BlueAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, PivotSubsystem pivot) {
+public BlueAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, PivotSubsystem pivot, ClawSubsystem claw, WristSubsystem wrist) {
         addCommands(
                 new FollowTrajectoryCommand(drive, drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                         // Add movements here
-                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(35)).withTimeout(100)::schedule)
+                        /*.addTemporalMarker(new PivotCommand(pivot, Math.toRadians(35)).withTimeout(100)::schedule)
                         .forward(20)
                         .strafeLeft(49)
                         .back(15)
@@ -39,7 +41,7 @@ public BlueAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, PivotS
                         .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(90)).withTimeout(700)::schedule)
                         .strafeLeft(51)
                         .back(66)
-                        /*.addTemporalMarker(new PivotCommand(pivot, Math.toRadians(20)).withTimeout(100)::schedule)
+                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(20)).withTimeout(100)::schedule)
                         .back(20)
                         .strafeRight(53)
                         .forward(10)

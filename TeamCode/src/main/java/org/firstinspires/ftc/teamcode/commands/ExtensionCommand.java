@@ -13,18 +13,18 @@ import java.util.function.DoubleSupplier;
 public class ExtensionCommand extends CommandBase {
 
     private final ExtensionSubsystem m_extension;
-    private double m_angle;
+    private double m_power;
 
-    public ExtensionCommand(ExtensionSubsystem extend, double angle){
+    public ExtensionCommand(ExtensionSubsystem extend, double power){
         m_extension = extend;
-        m_angle = angle;
+        m_power = power;
 
         addRequirements(m_extension);
     }
 
     @Override
     public void execute(){
-        m_extension.turnToAngle(m_angle);
+        m_extension.turnToAngle(m_power);
     }
 
 }
