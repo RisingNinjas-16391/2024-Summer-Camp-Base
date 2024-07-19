@@ -1,32 +1,68 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import android.graphics.Color;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitUntilCommand;
+import com.arcrobotics.ftclib.command.button.Trigger;
 
 import org.firstinspires.ftc.teamcode.subsystems.claw.ClawSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.claw.ColorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.claw.WristSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.drive.DrivetrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pivot.PivotSubsystem;
 
 public class RedAutoCommand extends SequentialCommandGroup {
-    public RedAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, PivotSubsystem pivot, ClawSubsystem claw, WristSubsystem wrist) {
+    public RedAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, PivotSubsystem pivot, ClawSubsystem claw, WristSubsystem wrist, ColorSubsystem sensor) {
         addCommands(
                 new FollowTrajectoryCommand(drive, drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                         // Add movements here
-                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(40)).withTimeout(300)::schedule)
-                        .back(60)
-                        .addTemporalMarker(new ClawCommand(claw, 0).withTimeout(2000)::schedule)
-                        .forward(20)
-                        .strafeLeft(20)
-                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(180))::schedule)
-                        .addTemporalMarker(new WristCommand(wrist, 180).withTimeout(2000)::schedule)
-                        .forward(15)
-                        .addTemporalMarker(new ClawCommand(claw, 45).withTimeout(3000)::schedule)
+                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(10)).withTimeout(100)::schedule)
+                        .forward(47.5)
                         .addTemporalMarker(new WristCommand(wrist, 180)::schedule)
-                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(40))::schedule)
+                        .waitSeconds(0.7)
+                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(100))::schedule)
+                        .waitSeconds(0.5)
+                        .addTemporalMarker(new ClawCommand(claw, Math.toRadians(0))::schedule)
+                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(-80))::schedule)
+                        .addTemporalMarker(new WristCommand(wrist, 0)::schedule)
+                        .waitSeconds(.8)
+                        .back(20)
+                        .strafeRight(20)
+                        .back(10)
+                        .waitSeconds(.1)
+                        .back(3.7)
+                        .addTemporalMarker(new ClawCommand(claw,45)::schedule)
+                        .waitSeconds(.5)
+                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(-30))::schedule)
+                        .forward(17)
+                        .strafeLeft(29.9)
+                        .addTemporalMarker(new WristCommand(wrist, 180)::schedule)
+                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(70))::schedule)
+                        .waitSeconds(1)
+                        .forward(18)
+                        .waitSeconds(.25)
+                        .addTemporalMarker(new ClawCommand(claw, Math.toRadians(0))::schedule)
+                        .waitSeconds(.5)
+                        .back(15)
+                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(20))::schedule)
+                        .addTemporalMarker(new WristCommand(wrist, 0)::schedule)
+                        .waitSeconds(.5)
                         .back(40)
-                        .build())
+                        .turn(Math.toRadians(90))
+                        .strafeLeft(5)
+                        .forward(60)
+                        .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(-80))::schedule)
+
+
+
+                        .build()
+
+
+                )
 
                         /*
                         .strafeRight(50)

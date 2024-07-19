@@ -53,10 +53,11 @@ public class RobotContainer {
     private final GamepadButton m_intakePosition;
     private final GamepadButton m_autoScore;
     private final GamepadButton m_autoScore2;
+    private final GamepadButton m_highscore;
 
     private final GamepadButton m_resetHeading;
 
-    private final Trigger m_hasCone;
+    public final Trigger m_hasCone;
 
     public RobotContainer(HardwareMap hwMap, Gamepad gamepad1, Gamepad gamepad2, int autoNum){
         m_driveSubsystem = new DrivetrainSubsystem(hwMap, false);
@@ -76,6 +77,7 @@ public class RobotContainer {
         m_autoScore = new GamepadButton(m_driverController, GamepadKeys.Button.Y);
         m_autoScore2 = new GamepadButton(m_driverController, GamepadKeys.Button.X);
         m_score = new GamepadButton(m_driverController,GamepadKeys.Button.A);
+        m_highscore = new GamepadButton(m_driverController,GamepadKeys.Button.DPAD_UP);
 
 
 
@@ -155,14 +157,16 @@ public class RobotContainer {
                       new WristCommand(m_wrist,0)
               ).withTimeout(500)
                 ));
+      m_highscore.whenPressed(new PivotCommand(m_pivotSubsystem,Math.toRadians(140)));
 
 
         m_autoScore2.whenPressed(new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                        new PivotCommand(m_pivotSubsystem,Math.toRadians(170)),
+                        new PivotCommand(m_pivotSubsystem,Math.toRadians(173)),
                         new WristCommand(m_wrist,180)
                 ).withTimeout(500),
                 new WaitUntilCommand(m_score::get),
+                new PivotCommand(m_pivotSubsystem,Math.toRadians(183)).withTimeout(100),
                 new ClawCommand(m_claw,0).withTimeout(200),
                 new ParallelCommandGroup(
                         new PivotCommand(m_pivotSubsystem,Math.toRadians(30)),
@@ -185,7 +189,7 @@ public class RobotContainer {
                 new BlueAutoCommand(m_driveSubsystem, m_intakeSubsystem, m_pivotSubsystem,m_claw, m_wrist).schedule();
                 break;
             case 2:
-                new RedAutoCommand(m_driveSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_claw, m_wrist).schedule();
+                new RedAutoCommand(m_driveSubsystem, m_intakeSubsystem, m_pivotSubsystem, m_claw, m_wrist,m_ConeSensor).schedule();
                 break;
         }
 
