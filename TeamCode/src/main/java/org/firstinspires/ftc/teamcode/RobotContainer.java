@@ -87,7 +87,7 @@ public class RobotContainer {
         m_pivotSubsystem.updateTelemetry(telemetry);
         m_claw.updateTelemetry(telemetry);
         m_cubeSensor.LEDon(true);
-        telemetry.addData("HasCone?",m_hasCone);
+        telemetry.addData("HasCone?",(m_cubeSensor::hasCube));
 
 
         telemetry.update();
