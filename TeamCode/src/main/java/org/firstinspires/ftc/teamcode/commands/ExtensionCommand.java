@@ -1,30 +1,26 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.qualcomm.robotcore.robocol.Command;
 
-import org.firstinspires.ftc.teamcode.subsystems.claw.ExtensionSubsystem;
-
-//import org.firstinspires.ftc.teamcode.subsystems.extension.ExtensionSubsystem;
-
-import java.util.function.DoubleSupplier;
-
+import org.firstinspires.ftc.teamcode.subsystems.pivot.PivotSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.slides.SlidesSubsystem;
 
 public class ExtensionCommand extends CommandBase {
+    private final SlidesSubsystem slidesSubsystem;
+    private final double extension;
 
-    private final ExtensionSubsystem m_extension;
-    private double m_power;
+    public ExtensionCommand(final SlidesSubsystem slides, final double extension) {
+        slidesSubsystem = slides;
+        this.extension = extension;
 
-    public ExtensionCommand(ExtensionSubsystem extend, double power){
-        m_extension = extend;
-        m_power = power;
-
-        addRequirements(m_extension);
+        addRequirements(slidesSubsystem);
     }
 
     @Override
-    public void execute(){
-        m_extension.turnToAngle(m_power);
+    public void execute() {
+        slidesSubsystem.setExtension(extension);
+        System.out.println("Pivot Position Execute");
     }
+
 
 }

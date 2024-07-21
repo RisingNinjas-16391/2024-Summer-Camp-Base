@@ -1,14 +1,10 @@
 package org.firstinspires.ftc.teamcode.subsystems.claw;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.hardware.SimpleServo;
-import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.I2cAddr;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class ColorSubsystem extends SubsystemBase {
     private final ColorSensor m_ConeSensor;
@@ -30,7 +26,7 @@ public class ColorSubsystem extends SubsystemBase {
 
     }
 
-    public boolean hasCone() {
+    public boolean hasCube() {
         return m_ConeSensor.blue()+m_ConeSensor.red() > 500;
     }
 

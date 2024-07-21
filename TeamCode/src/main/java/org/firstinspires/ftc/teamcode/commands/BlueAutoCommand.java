@@ -4,25 +4,22 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.subsystems.claw.ClawSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.claw.WristSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.drive.DrivetrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pivot.PivotSubsystem;
 
 public class BlueAutoCommand extends SequentialCommandGroup {
-public BlueAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, PivotSubsystem pivot, ClawSubsystem claw, WristSubsystem wrist) {
+public BlueAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, PivotSubsystem pivot, ClawSubsystem claw) {
         addCommands(
                 new FollowTrajectoryCommand(drive, drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                         // Add movements here
                         .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(10)).withTimeout(100)::schedule)
                         .forward(50)
-                        .addTemporalMarker(new WristCommand(wrist, 180)::schedule)
                         .waitSeconds(0.7)
                         .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(100))::schedule)
                         .waitSeconds(0.5)
                         .addTemporalMarker(new ClawCommand(claw, Math.toRadians(0))::schedule)
                         .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(-80))::schedule)
-                        .addTemporalMarker(new WristCommand(wrist, 0)::schedule)
                         .waitSeconds(.5)
                         .back(20)
                         .strafeLeft(20)
@@ -34,7 +31,6 @@ public BlueAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, PivotS
                         .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(-30))::schedule)
                         .forward(20)
                         .strafeRight(32)
-                        .addTemporalMarker(new WristCommand(wrist, 180)::schedule)
                         .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(70))::schedule)
                         .waitSeconds(2)
                         .forward(20)
@@ -43,7 +39,6 @@ public BlueAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, PivotS
                         .waitSeconds(.5)
                         .back(15)
                         .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(20))::schedule)
-                        .addTemporalMarker(new WristCommand(wrist, 0)::schedule)
                         .waitSeconds(.5)
                         .back(40)
                         .turn(Math.toRadians(-90))
