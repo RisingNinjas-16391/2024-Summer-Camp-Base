@@ -146,11 +146,11 @@ public class RobotContainer {
 
       m_autoScore.whenPressed(new SequentialCommandGroup(
               new ParallelCommandGroup(
-                      new PivotCommand(m_pivotSubsystem,Math.toRadians(150)),
+                      new PivotCommand(m_pivotSubsystem,Math.toRadians(153)),
                       new WristCommand(m_wrist,180)
               ).withTimeout(500),
                 new WaitUntilCommand(m_score::get),
-                new PivotCommand(m_pivotSubsystem,Math.toRadians(160)).withTimeout(100),
+                new PivotCommand(m_pivotSubsystem,Math.toRadians(163)).withTimeout(100),
                 new ClawCommand(m_claw,0).withTimeout(200),
               new ParallelCommandGroup(
                       new PivotCommand(m_pivotSubsystem,Math.toRadians(30)),

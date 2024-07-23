@@ -34,7 +34,7 @@ public class RedAutoCommand extends SequentialCommandGroup {
                         .strafeRight(20)
                         .back(10)
                         .waitSeconds(.1)
-                        .back(3.7)
+                        .back(3.9)
                         .addTemporalMarker(new ClawCommand(claw,45)::schedule)
                         .waitSeconds(.5)
                         .addTemporalMarker(new PivotCommand(pivot, Math.toRadians(-30))::schedule)
