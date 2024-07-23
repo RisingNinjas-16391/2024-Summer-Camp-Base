@@ -27,7 +27,7 @@ public class SingleMotorSubsystem extends SubsystemBase {
     }
 
     public void setPower(double power) {
-        m_intake.setPower(power);
+        m_intake.setPower(power+.09);
     }
 
     public double getPower() {

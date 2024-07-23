@@ -18,16 +18,16 @@ public class PivotSubsystem extends SubsystemBase {
     private final DcMotorEx pivot;
 
     //TODO: Tune kP for arm. If the arm moves too fast lower, if it moves too slow increase
-    public static PIDFController kPIDF = new PIDFController(2,0,0,0.2);
+    public static PIDFController kPIDF = new PIDFController(0.25,0,0,0.2);
 
     //TODO: Replace with preferred starting angle upon initialization
-    private double desiredAngle = Math.toRadians(90);
+    private double desiredAngle = Math.toRadians(5);
 
     //TODO: Tune for arm, if the arm goes up without doing anything lower, if it falls then increase it
     public static double kG = 0.3;
 
     //TODO: Replace with starting angle offset
-    public static double angleOffset = 110;
+    public static double angleOffset = 0;
 
     public static double tolerance = 0.2;
 
@@ -35,6 +35,7 @@ public class PivotSubsystem extends SubsystemBase {
         pivot = hwMap.get(DcMotorEx.class, "pivot");
         pivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         pivot.setDirection(DcMotorSimple.Direction.REVERSE);
+        pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         kPIDF.setTolerance(tolerance);
@@ -68,7 +69,7 @@ public class PivotSubsystem extends SubsystemBase {
     }
 
     public boolean atSetpoint() {
-        return (Math.abs(desiredAngle - getAngle()) < 0.4);
+        return (Math.abs(desiredAngle - getAngle()) < 0.2);
     }
 
     public boolean isBusy() {
@@ -77,7 +78,7 @@ public class PivotSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        setPower(calculatePID());
+        setPower(-3 * calculatePID());
 
     }
 
