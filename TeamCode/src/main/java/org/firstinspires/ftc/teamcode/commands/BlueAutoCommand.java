@@ -12,8 +12,12 @@ public BlueAutoCommand(DrivetrainSubsystem drive, IntakeSubsystem intake, PivotS
         addCommands(
                 new FollowTrajectoryCommand(drive, drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                         // Add movements here
-                        .addTemporalMarker(new IntakeCommand(intake, 1)::schedule)
-                        .forward(10)
+                        .forward(50)
+                        .turn(180)
+                        .forward(40)
+                        .strafeLeft(20)
+                        .strafeRight(20)
+                        .back(20)
                         .build()
                 )
         );
