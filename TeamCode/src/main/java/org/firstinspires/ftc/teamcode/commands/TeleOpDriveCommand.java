@@ -32,6 +32,6 @@ public class TeleOpDriveCommand extends CommandBase {
     @Override
     public void execute() {
 //        drive.setDrivePowerHeadingPID(new Pose2d(x.getAsDouble(), -y.getAsDouble(), -omega.getAsDouble()));
-        drive.setDrivePower(new Pose2d(-x.getAsDouble(), y.getAsDouble(), -omega.getAsDouble()));
+        drive.setDrivePower(new Pose2d(x.getAsDouble(), -y.getAsDouble(), -omega.getAsDouble()));
     }
 }
