@@ -18,7 +18,7 @@ public class PivotSubsystem extends SubsystemBase {
     private final DcMotorEx pivot;
 
     //TODO: Tune kP for arm. If the arm moves too fast lower, if it moves too slow increase
-    public static PIDFController kPIDF = new PIDFController(2,0,0,0.2);
+    public static PIDFController kPIDF = new PIDFController(0.1,0,0,0.2);
 
     //TODO: Replace with preferred starting angle upon initialization
     private double desiredAngle = Math.toRadians(90);
@@ -52,6 +52,7 @@ public class PivotSubsystem extends SubsystemBase {
     }
 
     public void setPower(double power){
+
         pivot.setPower(power);
     }
 
@@ -72,6 +73,7 @@ public class PivotSubsystem extends SubsystemBase {
     }
 
     public boolean isBusy() {
+
         return pivot.isBusy();
     }
 

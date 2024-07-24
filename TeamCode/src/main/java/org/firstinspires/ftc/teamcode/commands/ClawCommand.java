@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.robocol.Command;
 
 import org.firstinspires.ftc.teamcode.subsystems.claw.ClawSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.claw.WristSubsystem;
 
 import java.util.function.DoubleSupplier;
 
