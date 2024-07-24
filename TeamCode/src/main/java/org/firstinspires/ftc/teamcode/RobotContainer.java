@@ -13,6 +13,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.commands.BlueAutoCommand;
 //import org.firstinspires.ftc.teamcode.commands.PivotPowerCommand;
+import org.firstinspires.ftc.teamcode.commands.ElevatorPositionCommand;
+import org.firstinspires.ftc.teamcode.commands.ElevatorVelocityCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.PivotCommand;
 import org.firstinspires.ftc.teamcode.commands.RedAutoCommand;
@@ -24,18 +26,17 @@ import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pivot.PivotSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.claw.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.claw.ColorSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.slides.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.slides.SlidesSubsystem;
 
 public class RobotContainer {
     private final DrivetrainSubsystem m_driveSubsystem;
     private final ColorSubsystem m_cubeSensor;
-    private final SlidesSubsystem m_slides;
-
+    //private final SlidesSubsystem m_slides;
     private final PivotSubsystem m_pivotSubsystem;
     private final IntakeSubsystem m_intakeSubsystem;
-
     private final ClawSubsystem m_claw;
-
+    private final ElevatorSubsystem m_elevator;
     private final GamepadEx m_driverController;
 
     //private final GamepadButton m_outtakePosition;
@@ -49,13 +50,15 @@ public class RobotContainer {
 
     public final Trigger m_hasCone;
 
+
     public RobotContainer(HardwareMap hwMap, Gamepad gamepad1, Gamepad gamepad2, int autoNum){
         m_driveSubsystem = new DrivetrainSubsystem(hwMap, false);
         m_pivotSubsystem = new PivotSubsystem(hwMap);
         m_intakeSubsystem = new IntakeSubsystem(hwMap);
         m_cubeSensor = new ColorSubsystem(hwMap);
         m_claw = new ClawSubsystem(hwMap);
-        m_slides = new SlidesSubsystem(hwMap);
+        m_elevator = new ElevatorSubsystem(hwMap);
+        //m_slides = new SlidesSubsystem(hwMap);
         m_hasCone = new Trigger(m_cubeSensor::hasCube);
 
 
@@ -82,12 +85,13 @@ public class RobotContainer {
 
     public void periodic(Telemetry telemetry) {
         //m_driveSubsystem.updateTelemetry(telemetry);
-        m_cubeSensor.updateTelemetry(telemetry);
+        //m_cubeSensor.updateTelemetry(telemetry);
+        m_elevator.updateTelemetry(telemetry);
         //m_intakeSubsystem.updateTelemetry(telemetry);
         m_pivotSubsystem.updateTelemetry(telemetry);
-        m_claw.updateTelemetry(telemetry);
-        m_cubeSensor.LEDon(true);
-        telemetry.addData("HasCone?",(m_cubeSensor::hasCube));
+       // m_claw.updateTelemetry(telemetry);
+       m_cubeSensor.LEDon(true);
+        //telemetry.addData("HasCone?",(m_cubeSensor::hasCube));
 
 
         telemetry.update();
@@ -100,16 +104,22 @@ public class RobotContainer {
                 m_driverController::getLeftX, m_driverController::getRightX));
 
         m_intakeSubsystem.setDefaultCommand(new IntakeCommand(m_intakeSubsystem, () -> m_driverController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) - m_driverController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)-.2 ));
+
+
+        m_elevator.setDefaultCommand(new ElevatorVelocityCommand(
+                m_elevator, () -> m_driverController.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) - m_driverController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) ));
     }
 
     public void configureButtonBindings() {
+
+        /*
 m_intakePosition.whenPressed(new SequentialCommandGroup(
         new PivotCommand(m_pivotSubsystem,Math.toRadians(0)),
-        new ExtensionCommand(m_slides,0),
+        //new ExtensionCommand(m_slides,0),
         new WaitUntilCommand(m_cubeSensor::hasCube),
-        new PivotCommand(m_pivotSubsystem,Math.toRadians(180)),
-        new ExtensionCommand(m_slides,20)
-))
+        new PivotCommand(m_pivotSubsystem,Math.toRadians(180))
+        //new ExtensionCommand(m_slides,20)
+))*/
 
 
         //m_outtakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(140)));
@@ -118,9 +128,10 @@ m_intakePosition.whenPressed(new SequentialCommandGroup(
         //m_score.whenPressed(new ClawCommand(m_claw,45));
         //m_autoScore.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(60)));
         //m_autoScore2.whenPressed(new PivotCommand(m_pivotSubsystem,Math.toRadians(110)));
-
         //m_outtakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(200)));
-        //m_intakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(0)));
+        m_intakePosition.whenPressed(new ElevatorPositionCommand(m_elevator,20));
+        m_score.whenPressed(new ElevatorPositionCommand(m_elevator,30));
+
         /*m_intakePosition.whenPressed(new SequentialCommandGroup(
                 new ParallelCommandGroup(
                         new PivotCommand(m_pivotSubsystem, Math.toRadians(0)).withTimeout(500),
