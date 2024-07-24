@@ -13,11 +13,16 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class SingleMotorSubsystem extends SubsystemBase {
     private final DcMotorEx m_intake;
+    private final DcMotorEx m_follower;
 
-    public SingleMotorSubsystem(@NonNull HardwareMap hardwareMap, String name){
-        m_intake = hardwareMap.get(DcMotorEx.class, name);
+    public SingleMotorSubsystem(@NonNull HardwareMap hardwareMap){
+        m_intake = hardwareMap.get(DcMotorEx.class, "pivot");
+        m_follower = hardwareMap.get(DcMotorEx.class,"follower");
         m_intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m_intake.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        m_follower.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        m_follower.setDirection(DcMotorSimple.Direction.FORWARD);
 
     }
 
@@ -28,6 +33,7 @@ public class SingleMotorSubsystem extends SubsystemBase {
 
     public void setPower(double power) {
         m_intake.setPower(power);
+        m_follower.setPower(power);
     }
 
     public double getPower() {

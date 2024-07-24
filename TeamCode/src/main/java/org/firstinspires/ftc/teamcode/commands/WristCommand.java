@@ -4,27 +4,28 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.robocol.Command;
 
 import org.firstinspires.ftc.teamcode.subsystems.claw.ClawSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.claw.WristSubsystem;
 
 import java.util.function.DoubleSupplier;
 
 
-public class ClawCommand extends CommandBase {
+public class WristCommand extends CommandBase {
 
-    private final ClawSubsystem m_claw;
+    private final WristSubsystem m_wrist;
     private double m_angle;
 
-    public ClawCommand(ClawSubsystem claw, double angle){
-        m_claw = claw;
+    public WristCommand(WristSubsystem wrist, double angle){
+        m_wrist = wrist;
         m_angle = angle;
 
-        addRequirements(m_claw);
+        addRequirements(m_wrist);
     }
 
 
 
     @Override
     public void execute(){
-        m_claw.turnToAngle(m_angle);
+        m_wrist.turnToAngle(m_angle);
     }
 
 }

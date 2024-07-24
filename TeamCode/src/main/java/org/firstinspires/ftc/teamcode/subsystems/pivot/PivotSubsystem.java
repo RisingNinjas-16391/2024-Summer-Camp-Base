@@ -16,43 +16,48 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class PivotSubsystem extends SubsystemBase {
 
     private final DcMotorEx pivot;
+    private final DcMotorEx follower;
 
     //TODO: Tune kP for arm. If the arm moves too fast lower, if it moves too slow increase
-    public static PIDFController kPIDF = new PIDFController(2,0,0,0.2);
+    public static PIDFController kPIDF = new PIDFController( .3,0,0,0);
 
     //TODO: Replace with preferred starting angle upon initialization
-    private double desiredAngle = Math.toRadians(90);
+    private double desiredAngle = Math.toRadians(0);
 
     //TODO: Tune for arm, if the arm goes up without doing anything lower, if it falls then increase it
-    public static double kG = 0.3;
+    public static double kG = 0;
 
     //TODO: Replace with starting angle offset
-    public static double angleOffset = 110;
+    public static double angleOffset = 0;
 
-    public static double tolerance = 0.2;
+    public static double tolerance = 0.1;
 
     public PivotSubsystem(@NonNull HardwareMap hwMap){
         pivot = hwMap.get(DcMotorEx.class, "pivot");
+        follower = hwMap.get(DcMotorEx.class,"follower");
         pivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        pivot.setDirection(DcMotorSimple.Direction.REVERSE);
+        pivot.setDirection(DcMotorSimple.Direction.FORWARD);
+        follower.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        follower.setDirection(DcMotorSimple.Direction.FORWARD);
+        pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         kPIDF.setTolerance(tolerance);
+
     }
 
     public void updateTelemetry(Telemetry telemetry) {
-        telemetry.addLine("Pivot")
-                .addData("\nEncoder Ticks Pivot:", pivot.getCurrentPosition())
-                .addData("\nPivot Angle Degrees", Math.toDegrees(getAngle()))
-                .addData("\nDesired Pivot Angle Degrees", Math.toDegrees(desiredAngle))
-                .addData("\nPivot Power", calculatePID())
-                .addData("\nAt Setpoint", atSetpoint());
-
-        telemetry.update();
+        telemetry.addLine("Pivot");
+        telemetry.addData("\nEncoder Ticks Pivot:", pivot.getCurrentPosition());
+        telemetry.addData("\nPivot Angle Degrees", Math.toDegrees(getAngle()));
+        telemetry.addData("\nDesired Pivot Angle Degrees", Math.toDegrees(desiredAngle));
+        telemetry.addData("\nPivot Power", calculatePID());
+        telemetry.addData("\nAt Setpoint", atSetpoint());
     }
 
     public void setPower(double power){
         pivot.setPower(power);
+        follower.setPower(power);
     }
 
     public double getAngle() {
@@ -77,7 +82,7 @@ public class PivotSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        setPower(calculatePID());
+        setPower(12 * -calculatePID());
 
     }
 

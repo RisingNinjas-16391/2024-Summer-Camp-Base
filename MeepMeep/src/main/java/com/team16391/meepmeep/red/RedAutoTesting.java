@@ -15,9 +15,23 @@ public class RedAutoTesting {
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                                 // Add movements here
-                                .forward(10)
-                                .turn(Math.toRadians(90))
-                                .strafeLeft(10)
+
+                                .forward(60)
+                                .back(39)
+                                .turn(-90)
+                                .forward(24)
+                                .back(24)
+                                .turn(90)
+                                .forward(39)
+                                .back(39)
+                                .turn(90)
+                                .forward(24)
+                                .back(24)
+                                .turn(-90)
+                                .forward(39)
+                                .back(60)
+                                .turn(-90)
+                                .back(72)
                                 .build()
 
                 );
