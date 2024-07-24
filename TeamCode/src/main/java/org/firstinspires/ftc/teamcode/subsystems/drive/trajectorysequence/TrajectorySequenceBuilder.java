@@ -432,6 +432,7 @@ public class TrajectorySequenceBuilder {
     }
 
     public TrajectorySequenceBuilder turn(double angle) {
+        angle = Math.toRadians(angle);
         return turn(angle, currentTurnConstraintMaxAngVel, currentTurnConstraintMaxAngAccel);
     }
 

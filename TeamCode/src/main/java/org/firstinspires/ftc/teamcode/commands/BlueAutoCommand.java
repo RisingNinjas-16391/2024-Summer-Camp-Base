@@ -16,6 +16,7 @@ public BlueAutoCommand(DrivetrainSubsystem drive, WristSubsystem wrist, ClawSubs
     addCommands(
                 new FollowTrajectoryCommand(drive, drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
                         // Add movements here
+<<<<<<< HEAD
                         .back(30)
                         .strafeRight(50)
                         .forward(30)  
@@ -23,6 +24,14 @@ public BlueAutoCommand(DrivetrainSubsystem drive, WristSubsystem wrist, ClawSubs
                         .back(40)
                         .strafeRight(45)
                         .forward(85)
+=======
+                        .forward(50)
+                        .turn(180)
+                        .forward(40)
+                        .strafeLeft(20)
+                        .strafeRight(20)
+                        .back(20)
+>>>>>>> a75fb237cc1316318dfe4b247157784a3f4b4768
                         .build()
                 )
         );

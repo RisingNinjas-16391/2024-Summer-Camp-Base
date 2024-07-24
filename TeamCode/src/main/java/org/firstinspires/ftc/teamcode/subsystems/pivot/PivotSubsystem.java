@@ -21,13 +21,13 @@ public class PivotSubsystem extends SubsystemBase {
     public static PIDFController kPIDF = new PIDFController(0.1,0,0,0.2);
 
     //TODO: Replace with preferred starting angle upon initialization
-    private double desiredAngle = Math.toRadians(90);
+    private double desiredAngle = Math.toRadians(0);
 
     //TODO: Tune for arm, if the arm goes up without doing anything lower, if it falls then increase it
-    public static double kG = 0.3;
+    public static double kG = 0;
 
     //TODO: Replace with starting angle offset
-    public static double angleOffset = 110;
+    public static double angleOffset = 0;
 
     public static double tolerance = 0.2;
 
@@ -41,12 +41,12 @@ public class PivotSubsystem extends SubsystemBase {
     }
 
     public void updateTelemetry(Telemetry telemetry) {
-        telemetry.addLine("Pivot")
-                .addData("\nEncoder Ticks Pivot:", pivot.getCurrentPosition())
-                .addData("\nPivot Angle Degrees", Math.toDegrees(getAngle()))
-                .addData("\nDesired Pivot Angle Degrees", Math.toDegrees(desiredAngle))
-                .addData("\nPivot Power", calculatePID())
-                .addData("\nAt Setpoint", atSetpoint());
+        telemetry.addLine("\nPivot");
+        telemetry.addData("\nEncoder Ticks Pivot:", pivot.getCurrentPosition());
+        telemetry.addData("\nPivot Angle Degrees", Math.toDegrees(getAngle()));
+        telemetry.addData("\nDesired Pivot Angle Degrees", Math.toDegrees(desiredAngle));
+        telemetry.addData("\nPivot Power", calculatePID());
+        telemetry.addData("\nAt Setpoint", atSetpoint());
 
         telemetry.update();
     }
@@ -57,6 +57,7 @@ public class PivotSubsystem extends SubsystemBase {
     }
 
     public double getAngle() {
+        //TODO: Replace pivot gear ratio for correct angle conversion
         return pivot.getCurrentPosition() * ((22 * 2 * Math.PI) / (28 * 100 * 66)) + Math.toRadians(angleOffset);
     }
 
@@ -69,7 +70,7 @@ public class PivotSubsystem extends SubsystemBase {
     }
 
     public boolean atSetpoint() {
-        return (Math.abs(desiredAngle - getAngle()) < 0.4);
+        return (Math.abs(desiredAngle - getAngle()) < 0.2);
     }
 
     public boolean isBusy() {
@@ -79,7 +80,7 @@ public class PivotSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        setPower(calculatePID());
+        setPower(12 * calculatePID());
 
     }
 
