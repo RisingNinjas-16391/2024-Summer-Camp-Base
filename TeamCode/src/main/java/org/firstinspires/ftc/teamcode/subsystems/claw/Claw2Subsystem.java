@@ -7,22 +7,22 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-public class ClawSubsystem extends SubsystemBase {
-    private final SimpleServo m_claw;
+public class Claw2Subsystem extends SubsystemBase {
+    private final SimpleServo m_claw2;
 
-    public ClawSubsystem(HardwareMap hwMap) {
-        m_claw = new SimpleServo(hwMap, "claw", -180,
+    public Claw2Subsystem(HardwareMap hwMap) {
+        m_claw2 = new SimpleServo(hwMap, "claw2", -40,
                 180, AngleUnit.DEGREES);
-        turnToAngle(100);
+        turnToAngle(-40);
     }
 
     public void updateTelemetry(Telemetry telemetry) {
-        telemetry.addLine("Claw");
-        telemetry.addData("Angle", m_claw.getAngle());
+        telemetry.addLine("Claw2");
+        telemetry.addData("Angle", m_claw2.getAngle());
     }
 
     public void turnToAngle(double angle) {
-        m_claw.turnToAngle(angle);
+        m_claw2.turnToAngle(angle);
 
     }
 

@@ -23,11 +23,10 @@ public class SingleMotorSubsystem extends SubsystemBase {
 
     public void updateTelemetry(Telemetry telemetry) {
         telemetry.addLine("Intake");
-        telemetry.addData("Power", m_intake.getPower());
+        //telemetry.addData("Power", m_intake.getPower());
     }
 
-    public void setPower(double power) {
-        m_intake.setPower(power);
+    public void setPower(double power) {m_intake.setPower(power);
     }
 
     public double getPower() {
