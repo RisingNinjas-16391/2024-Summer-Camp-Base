@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems.pivot;
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.util.Angle;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Config
 public class PivotSubsystem extends SubsystemBase {
@@ -18,7 +20,7 @@ public class PivotSubsystem extends SubsystemBase {
     private final DcMotorEx pivot;
 
     //TODO: Tune kP for arm. If the arm moves too fast lower, if it moves too slow increase
-    public static PIDFController kPIDF = new PIDFController(2,0,0,0.2);
+    public static PIDFController kPIDF = new PIDFController(2,0,0,0);
 
     //TODO: Replace with preferred starting angle upon initialization
     private double desiredAngle = Math.toRadians(0);
@@ -34,7 +36,8 @@ public class PivotSubsystem extends SubsystemBase {
     public PivotSubsystem(@NonNull HardwareMap hwMap){
         pivot = hwMap.get(DcMotorEx.class, "pivot");
         pivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        pivot.setDirection(DcMotorSimple.Direction.REVERSE);
+        pivot.setDirection(DcMotorSimple.Direction.FORWARD);
+        pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         kPIDF.setTolerance(tolerance);
@@ -57,7 +60,7 @@ public class PivotSubsystem extends SubsystemBase {
 
     public double getAngle() {
         //TODO: Replace pivot gear ratio for correct angle conversion
-        return pivot.getCurrentPosition() * ((22 * 2 * Math.PI) / (28 * 100 * 66)) + Math.toRadians(angleOffset);
+        return AngleUnit.normalizeRadians((pivot.getCurrentPosition() / 537.7) * (1 / 25.0) * (2 * Math.PI) + Math.toRadians(angleOffset));
     }
 
     public void setAngle(double angle){
@@ -78,7 +81,7 @@ public class PivotSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        setPower(12 * calculatePID());
+        setPower(-calculatePID());
 
     }
 

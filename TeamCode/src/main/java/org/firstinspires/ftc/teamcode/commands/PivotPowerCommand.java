@@ -35,7 +35,7 @@ public class PivotPowerCommand extends CommandBase {
             timer.reset();
             return;
         }
-        pivot.setAngle(pivot.getAngle() + (power.getAsDouble() * timer.time() * speed));
+        pivot.setPower(power.getAsDouble());
     }
 
 }

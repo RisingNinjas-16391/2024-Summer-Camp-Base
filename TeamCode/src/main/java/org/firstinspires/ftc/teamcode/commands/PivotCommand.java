@@ -17,7 +17,7 @@ public class PivotCommand extends CommandBase {
 
     @Override
     public void execute() {
-        pivotSubsystem.setAngle(angle);
+        pivotSubsystem.setAngle(-Math.toRadians(angle));
         System.out.println("Pivot Position Execute");
     }
 
