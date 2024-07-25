@@ -13,15 +13,15 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class IntakeSubsystem extends SubsystemBase {
     private final DcMotorEx m_intake;
-    private final DcMotorEx m_intake2;
+//    private final DcMotorEx m_intake2;
 
     public IntakeSubsystem(@NonNull HardwareMap hardwareMap){
         m_intake = hardwareMap.get(DcMotorEx.class, "intake");
-        m_intake2 = hardwareMap.get(DcMotorEx.class, "intake2");
+//        m_intake2 = hardwareMap.get(DcMotorEx.class, "intake2");
         m_intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m_intake.setDirection(DcMotorSimple.Direction.FORWARD);
-        m_intake2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m_intake2.setDirection(DcMotorSimple.Direction.REVERSE);
+//        m_intake2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        m_intake2.setDirection(DcMotorSimple.Direction.REVERSE);
 
     }
 
@@ -32,7 +32,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void setPower(double power) {
         m_intake.setPower(power);
-        m_intake2.setPower(power);
+//        m_intake2.setPower(power);
     }
 
     public double getPower() {
