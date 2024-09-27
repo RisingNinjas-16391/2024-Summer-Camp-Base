@@ -60,7 +60,7 @@ public class PivotSubsystem extends SubsystemBase {
 
     public double getAngle() {
         //TODO: Replace pivot gear ratio for correct angle conversion
-        return AngleUnit.normalizeRadians((pivot.getCurrentPosition() / 537.7) * (1 / 25.0) * (2 * Math.PI) + Math.toRadians(angleOffset));
+        return AngleUnit.normalizeRadians((pivot.getCurrentPosition() / 537.7) * (1 / 3.0) * (2 * Math.PI) + Math.toRadians(angleOffset));
     }
 
     public void setAngle(double angle){
