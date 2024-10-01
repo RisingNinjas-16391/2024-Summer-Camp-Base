@@ -44,8 +44,8 @@ public class RobotContainer {
 
         m_driverController = new GamepadEx(gamepad1);
 
-        m_clawOpen = new GamepadButton(m_driverController, GamepadKeys.Button.A);
-        m_clawClose = new GamepadButton(m_driverController, GamepadKeys.Button.B);
+        m_clawOpen = new GamepadButton(m_driverController, GamepadKeys.Button.X);
+        m_clawClose = new GamepadButton(m_driverController, GamepadKeys.Button.Y);
        // m_outtakePosition = new GamepadButton(m_driverController, GamepadKeys.Button.RIGHT_BUMPER);
         //m_intakePosition = new GamepadButton(m_driverController, GamepadKeys.Button.LEFT_BUMPER);
 
@@ -79,7 +79,7 @@ public class RobotContainer {
        // m_outtakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(10)));
        // m_intakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(-20)));
         m_clawClose.whenPressed(new ClawCommand(m_clawSubsystem, Math.toRadians(0)));
-        m_clawOpen.whenPressed(new ClawCommand(m_clawSubsystem, Math.toRadians(180)));
+        m_clawOpen.whenPressed(new ClawCommand(m_clawSubsystem, Math.toRadians(90)));
         m_resetHeading.whenPressed(new InstantCommand(m_driveSubsystem::resetHeading));
     }
 
