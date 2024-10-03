@@ -15,16 +15,20 @@ import org.firstinspires.ftc.teamcode.commands.PivotCommand;
 import org.firstinspires.ftc.teamcode.commands.PivotPowerCommand;
 import org.firstinspires.ftc.teamcode.commands.RedAutoCommand;
 import org.firstinspires.ftc.teamcode.commands.TeleOpDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.WristCommand;
 import org.firstinspires.ftc.teamcode.subsystems.drive.DrivetrainSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.pivot.PivotSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.claw.ClawSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.wrist.WristSubsystem;
 
 public class RobotContainer {
     private final DrivetrainSubsystem m_driveSubsystem;
     private final PivotSubsystem m_pivotSubsystem;
    // private final IntakeSubsystem m_intakeSubsystem;
     private final ClawSubsystem m_clawSubsystem;
+
+    private final WristSubsystem m_wristSubsystem;
 
     private final GamepadEx m_driverController;
 
@@ -35,20 +39,25 @@ public class RobotContainer {
     private final GamepadButton m_clawOpen;
     private final GamepadButton m_clawClose;
 
+    private final GamepadButton m_wristLeft;
+
+    private final GamepadButton m_wristRight;
+
 
     public RobotContainer(HardwareMap hwMap, Gamepad gamepad1, Gamepad gamepad2, int autoNum){
         m_driveSubsystem = new DrivetrainSubsystem(hwMap, true);
         m_pivotSubsystem = new PivotSubsystem(hwMap);
        // m_intakeSubsystem = new IntakeSubsystem(hwMap);
         m_clawSubsystem = new ClawSubsystem(hwMap);
-
+        m_wristSubsystem = new WristSubsystem(hwMap);
         m_driverController = new GamepadEx(gamepad1);
 
         m_clawOpen = new GamepadButton(m_driverController, GamepadKeys.Button.X);
         m_clawClose = new GamepadButton(m_driverController, GamepadKeys.Button.Y);
        // m_outtakePosition = new GamepadButton(m_driverController, GamepadKeys.Button.RIGHT_BUMPER);
         //m_intakePosition = new GamepadButton(m_driverController, GamepadKeys.Button.LEFT_BUMPER);
-
+        m_wristLeft = new GamepadButton(m_driverController, GamepadKeys.Button.LEFT_BUMPER);
+        m_wristRight = new GamepadButton(m_driverController, GamepadKeys.Button.RIGHT_BUMPER);
         m_resetHeading = new GamepadButton(m_driverController, GamepadKeys.Button.START);
 
         if (autoNum == 0) {
@@ -80,6 +89,8 @@ public class RobotContainer {
        // m_intakePosition.whenPressed(new PivotCommand(m_pivotSubsystem, Math.toRadians(-20)));
         m_clawClose.whenPressed(new ClawCommand(m_clawSubsystem, Math.toRadians(0)));
         m_clawOpen.whenPressed(new ClawCommand(m_clawSubsystem, Math.toRadians(90)));
+        m_wristRight.whenPressed(new WristCommand(m_wristSubsystem, Math.toRadians(0)));
+        m_wristLeft.whenPressed(new WristCommand(m_wristSubsystem, Math.toRadians(90)));
         m_resetHeading.whenPressed(new InstantCommand(m_driveSubsystem::resetHeading));
     }
 
